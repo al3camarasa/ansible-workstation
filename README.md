@@ -159,7 +159,7 @@ EOF
 Crear el archivo ```inventario/host_vars/office``` las variables:
 
 - ```devops_user_name```: con nuestro propio nombre de usuario.
-- ```devops_shell```: con el interprete de comando.
+- ```devops_shell```: bashc
 - ```dock_icon_size```: 34
 - ```mouse_speed```: 0.25735294117647056
 - ```office_ntp_servers```: [ ntp1, ntp2, ... ]
