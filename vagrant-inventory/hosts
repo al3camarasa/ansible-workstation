@@ -1,0 +1,29 @@
+# hosts en Vagrantfile
+
+devopsws
+# agregar devopsws en los grupos mas abajo de acuerdo a las necesidades
+
+[custom]
+devopsws
+
+[homeoffice]
+devopsws
+
+[servidor]
+devopsws
+
+[escritorio]
+devopsws
+
+[devops]
+devopsws
+
+[job]
+
+[python3]
+devopsws
+
+[python3:vars]
+ansible_python_interpreter=/usr/bin/python3
+
+

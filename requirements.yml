@@ -1,0 +1,6 @@
+---
+
+- src: https://github.com/stefangweichinger/ansible-rclone.git
+  # version: master
+  scm: git
+  name: ansible-rclone

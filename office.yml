@@ -1,0 +1,54 @@
+---
+- name: Office
+  hosts: job
+  tags: office
+  become: true
+
+  tasks:
+
+  - name: Office | Instala paquete de chat obsoleto
+    ansible.builtin.apt:
+      name:
+        - pidgin
+        - pidgin-otr
+      state: present
+
+  - name: Office | Instala cliente Icinga
+    ansible.builtin.apt:
+      name: nagstamon
+      state: present
+
+  - name: Git | Certificados a usar en el sistema
+    ansible.builtin.command: echo -n | openssl s_client -showcerts -connect {{ office_git }}:443 2>/dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo bash -c "cat - > /usr/local/share/ca-certificates/{{ office_git }}.crt"
+    changed_when: false
+    when: office_git is defined
+
+  - name: Git | Actualizo los certificados a usar en el sistema
+    ansible.builtin.command: update-ca-certificates
+    changed_when: false
+    when: office_git is defined
+
+  - name: NTP | Instala paquete timesyncd
+    ansible.builtin.apt:
+      name:
+        - systemd-timesyncd
+      state: present
+    when: office_ntp_servers is defined
+
+  - name: NTP | Create entry for timesyncd
+    ansible.builtin.template:
+      src: timesyncd.conf.j2
+      dest: "/etc/systemd/timesyncd.conf"
+      owner: "root"
+      group: "root"
+      mode: '0644'
+    when: office_ntp_servers is defined
+
+  - name: NTP | Restart service
+    ansible.builtin.service:
+      name: systemd-timesyncd
+      state: restarted
+    when: office_ntp_servers is defined
+
+  - name: Instala_xrdp
+    ansible.builtin.include_tasks: tasks/instala_xrdp.yml

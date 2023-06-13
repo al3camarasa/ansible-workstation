@@ -1,0 +1,16 @@
+---
+- name: Escritorio
+  hosts: escritorio
+  tags: escritorio
+
+  tasks:
+
+  - name: Include task list to packages install
+    ansible.builtin.include_tasks: "tasks/paquetes_de_escritorio.yml"
+
+  - name: escritorio | instala aplicaciones con flatpak
+    import_tasks: tasks/instala_flatpak.yml
+    when: ansible_distribution == "Ubuntu" and list_of_flatpak is defined
+    tags:
+      - escritorio
+      - flatpak

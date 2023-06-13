@@ -1,0 +1,23 @@
+---
+
+- name: Osync | clone repository
+  git:
+   repo: 'https://github.com/deajan/osync.git'
+   dest: /tmp/osync
+   clone: yes
+   update: no
+   version: stable
+
+- name: Osync | execute installer
+  shell: ./install.sh --silent
+  args:
+    chdir: /tmp/osync
+    executable: /bin/bash
+  become: true
+
+- name: Osync | create log directory
+  file:
+    path: /var/log/osync/
+    state: directory
+    owner: "{{ devops_user_name }}"
+    group: "{{ devops_user_name }}"

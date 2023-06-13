@@ -1,0 +1,61 @@
+---
+  - hosts: devops
+    become: true
+    tags: devops
+
+    tasks:
+    - name: "Apt | instala aplicaciones Gnome"
+      ansible.builtin.apt:
+        name:
+          - meld
+          - zsh-static
+          - tilix
+          - tmux
+        state: present
+      become: true
+
+    - name: "Ansible check file exists example"
+      ansible.builtin.stat:
+        path: /home/{{devops_user_name}}/.zim
+      register: file_details
+
+    - name: "Zsh | configuration of Zim - https://github.com/zimfw/zimfw"
+      ansible.legacy.shell: curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh
+      become_user: "{{ devops_user_name }}"
+      when: devops_shell == "zsh" and not file_details.stat.exists
+
+    - name: "Zsh | make shell the default shell"
+      ansible.builtin.user:
+        name: "{{ devops_user_name }}"
+        shell: "/bin/{{ devops_shell }}"
+
+    - name: "Devops | Instala aplicaciones con snap"
+      community.general.snap:
+        name: "{{ item }}"
+        classic: true
+      with_items:
+        - "{{ list_of_snap_devops }}"
+      become: true
+      tags:
+        - devops
+        - snap
+
+    - name: "Install Ansible"
+      ansible.builtin.include_tasks:
+        file: tasks/devops_ansible.yml
+      tags:
+        - devops
+        - ansible
+
+    # - name: "Install Linux_window_session_manager"
+    #   ansible.builtin.include_tasks:
+    #     file: tasks/install_linux_window_session_manager.yml
+    #   tags:
+    #     - devops
+    #     - windows-manager
+
+    - name: "Install Lens"
+      ansible.builtin.include_tasks:
+        file: tasks/install_lens.yml
+      tags:
+        - devops

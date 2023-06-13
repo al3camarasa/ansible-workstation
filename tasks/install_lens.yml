@@ -1,0 +1,4 @@
+- name: "Debian/Ubuntu Family | Downloading and installing Lens"
+  ansible.builtin.apt:
+    deb: "{{ lens_debian_url }}"
+    state: present

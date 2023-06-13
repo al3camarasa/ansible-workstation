@@ -1,0 +1,31 @@
+---
+
+- name: STG | instala escritorio remoto
+  apt:
+    name: xrdp
+    state: present
+  become: true
+
+# - name: xrdp.ini file
+#   copy:
+#     src: files/xrdp/xrdp.ini
+#     dest: /etc/xrdp/xrdp.ini
+#     backup: yes
+#   become: true
+
+- name: add the xrdp user to the group
+  user:
+    name: xrdp
+    group: ssl-cert 
+     
+- name: Enable service xrdp and ensure it is not masked
+  systemd:
+    name: xrdp
+    enabled: yes
+    masked: no
+
+- name: Restart service xrdp
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: xrdp

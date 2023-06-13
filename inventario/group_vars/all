@@ -1,0 +1,52 @@
+---
+# VeraCrypt
+veracrypt_download_page_url: "https://launchpad.net/veracrypt/trunk/1.25.9/+download/veracrypt-1.25.9-Ubuntu-20.04-amd64.deb"
+
+# Rclone
+rclone_arch: amd64
+
+list_of_remove_apt:
+- flameshot
+- keepassxc
+- indicator-cpufreq
+
+# Flatpak
+# list_of_flatpak:
+
+# Snap
+list_of_snap_escritorio:
+- authy
+- brave
+- audacity
+- chromium
+- keepassxc
+- libreoffice
+- slack
+- spotify
+- telegram-desktop
+- tusk
+- todoist
+- vlc
+- zoom-client
+# list_of_remove_snap:
+# - firefox
+
+# Snap
+list_of_snap_devops:
+# - code
+- postman
+
+list_of_snap_access_media:
+- keepassxc
+
+list_of_snap_access_usb:
+- chromium
+- keepassxc
+
+# Gnome
+path_wallpapers: "/home/{{devops_user_name}}/Imágenes/wallpapers"
+file_ext: "jpg"
+wallpapers_url: "https://wallpapershome.com/images/pages/pic_h/21590.jpg"
+
+# Devops
+lens_debian_url: "https://api.k8slens.dev/binaries/Lens-2023.1.110749-latest.amd64.deb"

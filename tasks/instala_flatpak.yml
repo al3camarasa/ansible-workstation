@@ -1,0 +1,44 @@
+---
+
+- name: flatpak | instala flatpak
+  apt:
+    name:
+      - flatpak
+      #- gnome-software-plugin-flatpak
+    state: present
+  become: true
+  tags:
+    - escritorio
+    - flatpak
+
+- name: flatpak | Add the flathub flatpak repository remote to the system installation
+  flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+    #method: user
+  become: true
+  tags:
+    - escritorio
+    - flatpak
+
+- name: escritorio | flatpak | Install the package from flathub for system
+  flatpak:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ list_of_flatpak }}"
+  become: true
+  when: list_of_flatpak is defined
+  tags:
+    - escritorio
+    - flatpak
+
+- name: flatpak | Update the package from flathub for system
+  command: "flatpak update --assumeyes --app {{ item }}"
+  with_items: "{{ list_of_flatpak }}"
+  when: list_of_flatpak is defined
+  become: true
+  tags:
+    - escritorio
+    - flatpak
+

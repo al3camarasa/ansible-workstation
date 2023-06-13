@@ -1,0 +1,5 @@
+inventario/hosts
+inventario/host_vars/
+.vagrant/
+provision/ansible/*.retry
+roles/

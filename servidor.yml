@@ -1,0 +1,39 @@
+---
+- name: Servidor
+  hosts: servidor
+  become: true
+
+  tasks:
+
+  - name: Servidor | requisito para el montaje de datos
+    apt:
+      name: dmraid
+      state: present
+    become: true
+
+  #- name: Servidor | wifi PC - Broadcom Corporation BCM4352 802.11ac Wireless Network Adapter
+  #  apt:
+  #    name: bcmwl-kernel-source
+  #    state: present
+  #  become: true
+
+  #- name: Servidor | wifi PC - Broadcom Corporation BCM4352 802.11ac Wireless Network Adapter
+  #  apt:
+  #    deb: "{{ broadcom_wl_firmware }}"
+  #  when: ansible_distribution == "Ubuntu"
+  #  become: true
+
+  - name: "Servidor | Bluetooth PC | Driver Bluetooth BCM20702A1-0b05-17cf - FIX firmware Patch file not found, tried"
+    apt:
+      deb: "{{ broadcom_bt_firmware }}"
+    when: ansible_distribution == "Ubuntu"
+    become: true
+  
+  - name: "Servidor | instalar herramienta de backup"
+    apt:
+      name: rsnapshot
+      state: present
+    become: true
+
+  #- include_tasks: tasks/instala_osync.yml
+

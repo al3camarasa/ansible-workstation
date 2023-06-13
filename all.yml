@@ -1,0 +1,25 @@
+---
+- name: All
+  hosts: all
+  become: true
+
+  tasks:
+  # - name: "Apt | Upgrade all packages to the latest version"
+  #   ansible.builtin.apt:
+  #     name: "*"
+  #     state: latest
+  #     update_cache: true
+
+  - name: Apt | update all packages to their latest version
+    ansible.builtin.apt:
+      name: "*"
+      state: latest
+
+  - name: "Install Veracrypt"
+    ansible.builtin.include_tasks: "tasks/instala_veracrypt.yml"
+    tags: [veracrypt]
+
+  - name: "Install rclone"
+    ansible.builtin.include_tasks: "tasks/instala_rclone.yml"
+    tags: [rclone]
+

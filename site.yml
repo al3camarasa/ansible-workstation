@@ -1,0 +1,23 @@
+---
+
+- name: Include a play to all
+  ansible.builtin.import_playbook: all.yml
+
+- name: Include a play to escritorio
+  ansible.builtin.import_playbook: escritorio.yml
+
+- name: Include a play to devops
+  ansible.builtin.import_playbook: devops.yml
+
+- name: Include a play to homeoffice
+  ansible.builtin.import_playbook: homeoffice.yml
+
+- name: Include a play to server
+  ansible.builtin.import_playbook: servidor.yml
+
+- name: Include a play to office
+  ansible.builtin.import_playbook: office.yml
+
+- name: Include a play to custom tasks
+  ansible.builtin.import_playbook: custom/all.yml
+  

@@ -1,0 +1,7 @@
+---
+
+- name: Apt | Install a Veracrypt .deb package from the internet
+  apt:
+    deb: "{{ veracrypt_download_page_url }}"
+  when: ansible_distribution == "Ubuntu"
+  become: true

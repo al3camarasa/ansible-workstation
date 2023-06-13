@@ -1,0 +1,50 @@
+---
+
+- name: devops | ansible | instala molecule
+  pip:
+    name: molecule
+    state: latest
+    executable: /usr/local/bin/pip
+  become: true
+  tags:
+    - devops
+    - ansible
+
+- name: devops | ansible | requerimiento para creación de VM en Vsphere
+  pip:
+    name: pyvmomi
+    state: latest
+    executable: /usr/local/bin/pip
+  become: true
+  tags:
+    - devops
+    - ansible
+
+- name: devops | script that allow read access to YAML files through command line
+  pip:
+    name: shyaml
+    state: latest
+    executable: /usr/local/bin/pip
+  become: true
+  tags:
+    - devops
+
+- name: devops |ansible | requerimiento para creación de streams en Graylog
+  pip:
+    name: jmespath
+
+    state: latest
+    executable: /usr/local/bin/pip
+  become: true
+  tags:
+    - devops
+
+- name: Apt | requerimiento para creación de VM en Vsphere
+  apt:
+    name:
+      - sshpass
+    state: present
+  become: true
+  tags:
+    - devops
+    - ansible

@@ -1,0 +1,6 @@
+---
+
+- name: Install Rclone
+  import_role:
+    name: ansible-rclone
+

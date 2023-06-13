@@ -1,0 +1,254 @@
+---
+
+- name: Apt | instala paquetes generales
+  apt:
+    name:
+      - aptitude
+      - arp-scan
+      - curl
+      - htop
+      - gedit
+      - git
+      - g++
+      - gcc
+      - gnupg2
+      - graphicsmagick-imagemagick-compat
+      - jq
+      - ldap-utils
+      - net-tools
+      - nocache
+      - nscd
+      - ntfs-3g
+      - mc
+      - openssh-server
+      - pwgen
+      - python3-apt
+      - rdiff-backup
+      - rsync
+      - smbclient
+      - smartmontools
+      - socat
+      - testdisk
+      - ffmpegthumbnailer
+      - lm-sensors
+      - w3m
+      - wget
+      - whois
+    state: present
+  become: true
+
+# - name: Apt | instala paquetes generales
+#   community.general.npm:
+#     name: "{{item}}"
+#     global: true
+#     state: present
+#   loop:
+#     - tldr                                                                                            # simplificando las páginas 'man'
+#   become: true
+
+- name: Apt | instala aplicaciones Gnome
+  apt:
+    name:
+      - alacarte
+      - aspell-es
+      - bleachbit
+      - calibre
+      - dconf-editor
+      - filezilla
+      - gufw
+      - folder-color
+      - gnome-shell-extensions
+      - gnome-tweaks
+      - gnome-disk-utility
+      - gnome-system-monitor
+      - jmeter
+      - ttf-mscorefonts-installer
+      - typecatcher
+      - visualvm
+      - vokoscreen
+    state: present
+  become: true
+
+- name: Apt | desinstala aplicaciones Gnome
+  apt:
+    name: "{{ item }}"
+    state: absent
+    purge: yes
+  loop: "{{ list_of_remove_apt }}"
+  when:  list_of_remove_apt is defined and list_of_remove_apt != None
+  become: true
+  tags:
+   - escritorio
+   - snap
+
+- include_tasks: tasks/personalizacion_gnome.yml
+  when: ansible_distribution == "Ubuntu"
+
+- name: Apt | utilidades de compresión
+  apt:
+    name:
+      - p7zip-rar
+      - p7zip-full
+      - unace
+      - unrar
+      - zip
+      - unzip
+      - mpack
+      - arj
+      - cabextract
+    state: present
+  become: true
+
+- name: Apt | instala Open JDK 11
+  apt:
+    name:
+      - openjdk-11-jdk
+    state: present
+  become: true
+  tags:
+    - java
+
+- name: Apt | Lector de epub, mobi 
+  apt:
+    name:
+      - fbreader
+    state: present
+  become: true
+
+- name: Apt | instala aplicativos para el manejo de imágenes y video
+  apt:
+    name:
+      - gthumb
+      - pinta
+      - webp
+      - winff
+    state: present
+  become: true
+  
+- name: Apt | privacidad
+  apt:
+    name:
+      - popularity-contest
+    state: absent
+    purge: yes
+  when: ansible_distribution == "Ubuntu"
+  become: true
+    
+- name: escritorio | instala aplicaciones con snap
+  snap:
+    name: "{{ item }}"
+    classic: yes
+  with_items:
+    - "{{ list_of_snap_escritorio }}"
+  become: true
+  tags:
+    - escritorio
+    - snap
+
+- name: escritorio | desinstala aplicaciones con snap
+  snap:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ list_of_remove_snap }}"
+  become: true
+  tags:
+    - escritorio
+    - snap
+  when: list_of_remove_snap is defined
+
+- name: escritorio | habilitar acceso a las aplicaciones con snap en /media
+  raw: snap connect {{ item }}:removable-media
+  with_items:
+    - "{{ list_of_snap_access_media }}"
+  when: list_of_snap_access_media is defined
+  become: true
+  tags:
+    - escritorio
+    - snap
+
+- name: escritorio | habilitar acceso USB a las aplicaciones con snap
+  raw: snap connect {{ item }}:raw-usb
+  with_items:
+    - "{{ list_of_snap_access_usb }}"
+  when: list_of_snap_access_usb is defined
+  become: true
+  tags:
+    - escritorio
+    - snap
+
+# http://rg3.github.io/youtube-dl/download.html
+- name: escritorio | instala youtube-dl
+  shell: |
+      if [ ! -f /usr/local/bin/youtube-dl ] ; then
+        curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+        chmod a+rx /usr/local/bin/youtube-dl
+      fi
+
+  changed_when: false
+  become: true
+  tags:
+    - escritorio
+
+- name: escritorio | actualiza youtube-dl
+  command: python3 /usr/local/bin/youtube-dl --update
+  changed_when: false
+  become: true
+  tags:
+    - escritorio
+
+- name: escritorio | install speedtest
+  pip:
+    name: speedtest-cli
+    state: latest
+    executable: /usr/local/bin/pip
+  become: true
+
+- name: escritorio | Determine latest GitHub release Rambox
+  uri:
+    url: "https://github.com/ramboxapp/community-edition/releases/latest"
+    body_format: json
+  register: rambox_release
+
+- name: escritorio | Extracts the release of Rambox from a URL
+  set_fact:
+    rambox_latest: "{{ rambox_release.url | regex_search('[0-9].[0-9].[0-9]+') }}"
+  when: rambox_release is defined
+  tags:
+    - escritorio
+
+- name: escritorio | install Rambox
+  apt:
+    deb: https://github.com/ramboxapp/community-edition/releases/download/{{ rambox_latest }}/Rambox-{{ rambox_latest }}-linux-amd64.deb
+  become: true
+  tags:
+    - escritorio
+
+- name: escritorio | Determine latest on GitHub release of Flameshot
+  uri:
+     url: "https://api.github.com/repos/flameshot-org/flameshot/releases/latest"
+     body_format: json
+  register: flameshot_github_release
+  until: flameshot_github_release.status == 200
+  retries: 5
+  delegate_to: localhost
+  become: false
+  tags:
+    - escritorio
+
+- name: escritorio | Install Flameshot package from the Github
+  ansible.builtin.apt:
+    deb: "{{item.browser_download_url}}"
+  with_items: "{{flameshot_github_release.json.assets}}"
+  when: '"ubuntu-{{ansible_distribution_version}}" in item.name and "sha256sum" not in item.name'
+  become: true
+  tags:
+    - escritorio
+
+- name: Apt | install Tor
+  apt:
+    name:
+      - tor
+      - torbrowser-launcher
+    state: present
+  become: true

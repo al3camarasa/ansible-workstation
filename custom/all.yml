@@ -1,0 +1,6 @@
+---
+- name: Custom
+  hosts: custom
+  tags: custom
+
+  tasks:

@@ -1,0 +1,32 @@
+---
+- hosts: homeoffice
+  become: true
+
+  tasks:
+
+  - name: Apt | instala paquetes de openconnect
+    apt:
+      name:
+        - openconnect
+        - network-manager-openconnect-gnome
+      state: present
+    become: true
+
+  - name: Apt | instala paquetes a para acceso remoto
+    apt:
+      name:
+        - remmina
+        - sshuttle
+      state: present
+    become: true
+
+  - name: Keyboard | Apple Keyboard under Linux (2 = fkeysfirst - Function keys are used as first key)
+    ansible.builtin.blockinfile:
+      path: /etc/modprobe.d/hid_apple.conf
+      create: yes
+      block: |
+        options hid_apple fnmode=2
+
+  - name: Keyboard | Script manages your initramfs images on your local box
+    command: update-initramfs -u -k all
+    

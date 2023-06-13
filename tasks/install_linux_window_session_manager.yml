@@ -1,0 +1,20 @@
+---
+
+- name: Linux-window-session-manager | Install dependencies
+  apt:
+    name:
+      - nodejs
+      - npm
+    state: present
+  tags:
+    - devops
+    - windows-manager
+
+- name: Linux-window-session-manager | Install package globally
+  community.general.npm:
+    name: linux-window-session-manager
+    global: yes
+  tags:
+   - devops
+   - windows-manager
+

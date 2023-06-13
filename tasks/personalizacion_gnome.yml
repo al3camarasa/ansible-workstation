@@ -1,0 +1,75 @@
+---
+
+- name: Dock | BOTTOM
+  command: gsettings set org.gnome.shell.extensions.dash-to-dock dock-position BOTTOM
+  become: true
+  become_user: "{{devops_user_name}}"
+
+- name: Dock | tamaño de los iconos
+  command: gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size "{{ dock_icon_size }}"
+  become: true
+  become_user: "{{devops_user_name}}"
+
+- name: Dock | centrado
+  command: gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
+  become: true
+  become_user: "{{devops_user_name}}"
+
+- name: Dock | Deshabilitar automontaje
+  command: gsettings set org.gnome.desktop.media-handling automount false
+  become: true
+  become_user: "{{devops_user_name}}"
+
+- name: Dock | Deshabilitar automontaje
+  command: gsettings set org.gnome.desktop.media-handling automount-open false 
+  become: true
+  become_user: "{{devops_user_name}}"
+
+- name: Dock | Ocultar iconos de disco montados en el dock
+  command: gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts false
+  become: true
+  become_user: "{{devops_user_name}}"
+
+- name: Dock | auto-hide
+  command: gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false 
+  become: true
+  become_user: "{{devops_user_name}}"
+
+- name: Dock | auto-hide
+  command: gsettings set org.gnome.shell.extensions.dash-to-dock autohide true
+  become: true
+  become_user: "{{devops_user_name}}"
+
+- name: Gnome | mouse-speed
+  command: gsettings set org.gnome.desktop.peripherals.mouse speed {{ mouse_speed }}
+  become: true
+  become_user: "{{devops_user_name}}"
+
+- name: Gnome | Set wallpapers | Create directory for wallpapers
+  file:
+    path: "{{ path_wallpapers }}"
+    state: directory
+    owner: "{{devops_user_name}}"
+    group: "{{devops_user_name}}"
+    mode: '0770'
+  become: true
+
+- name: Gnome | Set wallpapers | Download wallpaper
+  get_url:
+    url: "{{ wallpapers_url }}"
+    dest: "{{ path_wallpapers }}/current.{{ file_ext }}"
+    owner: "{{devops_user_name}}"
+    group: "{{devops_user_name}}"
+    force: yes
+  become: true
+
+- name: Gnome | Set wallpapers
+  command: gsettings set org.gnome.desktop.background picture-uri file://{{ path_wallpapers }}/current.{{ file_ext }}
+  become: true
+  become_user: "{{devops_user_name}}"
+
+- name: Gnome | show trash
+  command: gsettings set org.gnome.shell.extensions.ding show-trash true
+  when: ansible_distribution_version >= "22.04"
+  become: true
+  become_user: "{{devops_user_name}}"

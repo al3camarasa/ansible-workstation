@@ -1,0 +1,13 @@
+---
+
+- name: Ledger | Template a file to /usr/share/applications/"{{ app.name }}".desktop
+  ansible.builtin.template:
+    src: templates/appname.desktop.j2
+    dest: /usr/share/applications/{{ app.name }}.desktop
+    owner: root
+    group: root
+    mode: '0744'
+  become: true
+
+
+
