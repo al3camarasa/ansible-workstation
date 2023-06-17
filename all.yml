@@ -23,3 +23,7 @@
     ansible.builtin.include_tasks: "tasks/instala_rclone.yml"
     tags: [rclone]
 
+  - name: "Install tlp"
+    ansible.builtin.include_tasks: "tasks/install_tlp.yml"
+    tags: [battery]
+

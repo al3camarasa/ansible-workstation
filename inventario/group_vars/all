@@ -50,3 +50,13 @@ wallpapers_url: "https://wallpapershome.com/images/pages/pic_h/21590.jpg"
 
 # Devops
 lens_debian_url: "https://api.k8slens.dev/binaries/Lens-2023.1.110749-latest.amd64.deb"
+
+# TLP
+# You can configure start and stop thresholds per battery.
+# tlp_batteries:
+#   - name: BAT0
+#     start_threshold: 70
+#     stop_threshold: 90
+#   - name: BAT1
+#     start_threshold: 70
+#     stop_threshold: 90

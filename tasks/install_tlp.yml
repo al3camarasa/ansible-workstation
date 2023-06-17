@@ -1,0 +1,27 @@
+  - name: "Battery | Check if exist battery"
+    shell: LANG=C upower -i /org/freedesktop/UPower/devices/battery_BATT | grep -E percentage | awk {'print $2'} | sed 's/[^0-9]*//g'
+    register: exist_battery
+    tags: [ battery ]
+
+  - name: "Battery | If acpi_call is recommended"
+    apt:
+      name: 
+        - acpi-call-dkms
+      state: present
+    become: true
+    when: exist_battery.stdout|int > 0
+    tags: [ battery ]
+
+  - name: "Battery | Set theshold"
+    ansible.builtin.command: tlp setcharge {{ item.start_threshold }} {{ item.stop_threshold }} {{ item.name }}
+    loop: "{{ tlp_batteries }}"
+    when: exist_battery.stdout|int > 0
+    tags: [ battery ]
+
+  - name: "Battery | Enable service tlp and start"
+    ansible.builtin.systemd:
+      name: tlp
+      enabled: true
+      state: started
+    when: exist_battery.stdout|int > 0
+    tags: [ battery ]
