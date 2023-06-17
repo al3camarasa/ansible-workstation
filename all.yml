@@ -25,5 +25,6 @@
 
   - name: "Install tlp"
     ansible.builtin.include_tasks: "tasks/install_tlp.yml"
+    when: tlp_batteries is defined
     tags: [battery]
 
