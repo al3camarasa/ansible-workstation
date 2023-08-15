@@ -156,7 +156,13 @@ ansible_python_interpreter=/usr/bin/python3
 EOF
 ```
 
-Crear el archivo ```inventario/host_vars/office``` las variables:
+* Crear el directorio para el inventario:
+
+```bash
+mkdir -p inventario/{group_vars,host_vars}
+```
+
+* Crear el archivo ```inventario/host_vars/office``` las variables:
 
 - ```devops_user_name```: con nuestro propio nombre de usuario.
 - ```devops_shell```: bash
