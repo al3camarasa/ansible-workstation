@@ -52,3 +52,12 @@
 
   - name: Instala_xrdp
     ansible.builtin.include_tasks: tasks/instala_xrdp.yml
+
+  - name: "Devops | install snap-store-proxy"
+    community.general.snap:
+      name: "snap-store-proxy"
+    become: true
+    tags:
+      - devops
+      - snap
+    when: office_ntp_servers is defined
