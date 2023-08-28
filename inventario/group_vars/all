@@ -46,7 +46,7 @@ list_of_snap_access_usb:
 # Gnome
 path_wallpapers: "/home/{{devops_user_name}}/Imágenes/wallpapers"
 file_ext: "jpg"
-wallpapers_url: "https://wallpapershome.com/images/pages/pic_h/20834.jpg"
+wallpapers_url: "https://wallpapercave.com/wp/wp4327153.jpg"
 
 # Devops
 lens_debian_url: "https://api.k8slens.dev/binaries/Lens-2023.1.110749-latest.amd64.deb"
