@@ -184,26 +184,6 @@
     executable: /usr/local/bin/pip
   become: true
 
-- name: escritorio | Determine latest GitHub release Rambox
-  uri:
-    url: "https://github.com/ramboxapp/community-edition/releases/latest"
-    body_format: json
-  register: rambox_release
-
-- name: escritorio | Extracts the release of Rambox from a URL
-  set_fact:
-    rambox_latest: "{{ rambox_release.url | regex_search('[0-9].[0-9].[0-9]+') }}"
-  when: rambox_release is defined
-  tags:
-    - escritorio
-
-- name: escritorio | install Rambox
-  apt:
-    deb: https://github.com/ramboxapp/community-edition/releases/download/{{ rambox_latest }}/Rambox-{{ rambox_latest }}-linux-amd64.deb
-  become: true
-  tags:
-    - escritorio
-
 - name: escritorio | Determine latest on GitHub release of Flameshot
   uri:
      url: "https://api.github.com/repos/flameshot-org/flameshot/releases/latest"
