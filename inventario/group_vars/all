@@ -1,6 +1,6 @@
 ---
 # VeraCrypt
-veracrypt_download_page_url: "https://launchpad.net/veracrypt/trunk/1.25.9/+download/veracrypt-1.25.9-Ubuntu-20.04-amd64.deb"
+veracrypt_download_page_url: "https://launchpad.net/veracrypt/trunk/1.26.7/+download/veracrypt-1.26.7-Ubuntu-22.04-amd64.deb"
 
 # Rclone
 rclone_arch: amd64
