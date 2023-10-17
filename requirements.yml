@@ -4,3 +4,8 @@
   # version: master
   scm: git
   name: ansible-rclone
+
+- name:  ansible-role-firewall
+  src: https://github.com/geerlingguy/ansible-role-firewall.git
+  version: master
+  scm: git

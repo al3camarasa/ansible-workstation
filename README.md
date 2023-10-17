@@ -170,6 +170,15 @@ mkdir -p inventario/{group_vars,host_vars}
 - ```mouse_speed```: 0.25735294117647056
 - ```office_ntp_servers```: [ ntp1, ntp2, ... ]
 - ```office_git```: nombre del repositorio git.
+- ```firewall_ip_vpn: IP_number
+     firewall_enabled_at_boot: true
+     firewall_enable_ipv6: false
+     firewall_allowed_tcp_ports: []
+     firewall_additional_rules:
+      - "iptables -I INPUT -p tcp --dport 3389 -s {{ firewall_ip_vpn  }} -j ACCEPT -m comment --comment 'Regla de entrada para RDP'"
+      ...
+      ...
+     firewall_deny_tcp_ports: false```
 
 Luego ejecutamos Ansible:
 

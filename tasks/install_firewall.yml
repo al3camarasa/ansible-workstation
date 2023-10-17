@@ -1,0 +1,11 @@
+---
+# FIX: "cmd": "iptables -F", "msg": "[Errno 2] No existe el fichero o el directorio: b'iptables'"
+- name: Create /etc/firewall.bash
+  ansible.builtin.file:
+    path: /etc/firewall.bash
+    state: touch
+
+- name: Install firewall
+  ansible.builtin.import_role:
+    name: ansible-role-firewall
+
