@@ -115,7 +115,7 @@ Modificar en el archivo ```inventario/host_vars/localhost``` las variables:
 Luego ejecutamos Ansible:
 
 ```bash
-time ansible-playbook -vv -i inventario/hosts site.yml --limit localhost --tags proxy,performance,locales,snap,ansible,git,virtualbox,vagrant,docker,microsoft_visualstudio_code
+time ansible-playbook -vv -i inventario/hosts site.yml --limit localhost --tags proxy,performance,locales,snap,ansible,git,virtualbox,vagrant,docker,microsoft_visualstudio_code,packer
 ```
 
 # 2. Instalación de los aplicativos custom
