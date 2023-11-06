@@ -1,4 +1,23 @@
-- name: "Debian/Ubuntu Family | Downloading and installing Lens"
-  ansible.builtin.apt:
-    deb: "{{ lens_debian_url }}"
+- name: "Lens | public security key and add it to your keyring"
+  ansible.builtin.apt_key:
+    url: https://downloads.k8slens.dev/keys/gpg
+    keyring: /usr/share/keyrings/lens-archive-keyring.gpg
+  become: true
+  tags: lens
+
+- name: "Lens | Add the Lens Desktop repo to your /etc/apt/sources.list.d directory"
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/lens-archive-keyring.gpg] https://downloads.k8slens.dev/apt/debian stable main"
     state: present
+    update_cache: true
+    filename: lens
+  become: true
+  tags: lens
+
+- name: "Lens | Install or update Lens Desktop"
+  ansible.builtin.apt:
+    name:
+      - code
+    state: present
+  become: true
+  tags: lens
