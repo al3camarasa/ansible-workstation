@@ -21,6 +21,7 @@
       - ntfs-3g
       - mc
       - openssh-server
+      - qemu-system-x86
       - pwgen
       - python3-apt
       - rdiff-backup
