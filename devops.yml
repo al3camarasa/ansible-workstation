@@ -47,15 +47,39 @@
         - devops
         - ansible
 
-    # - name: "Install Linux_window_session_manager"
-    #   ansible.builtin.include_tasks:
-    #     file: tasks/install_linux_window_session_manager.yml
-    #   tags:
-    #     - devops
-    #     - windows-manager
-
-    - name: "Install Lens"
-      ansible.builtin.include_tasks:
-        file: tasks/install_lens.yml
+    - name: "Kubeselect | Installation"
+      ansible.builtin.git:
+        repo: https://github.com/fatliverfreddy/kubeselect.git
+        dest: /tmp/kubeselect
+        version: master
       tags:
         - devops
+        - kubernetes
+
+    - name: "Kubeselect | Installation"
+      ansible.builtin.copy:
+        dest: /usr/local/bin
+        follow: false
+        force: true
+        group: root
+        mode: "0755"
+        owner: root
+        src: /tmp/kubeselect/kubeselect
+      tags:
+        - devops
+        - kubernetes
+
+    - name: "Install kubectl"
+      ansible.builtin.import_tasks:
+        file: tasks/install_kubectl.yml
+      tags:
+        - devops
+        - kubernetes
+        - kubectl
+
+    # - name: "Install Lens"
+    #   ansible.builtin.include_tasks:
+    #     file: tasks/install_lens.yml
+    #   tags:
+    #     - devops
+
