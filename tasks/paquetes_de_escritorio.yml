@@ -193,23 +193,19 @@
     executable: /usr/local/bin/pip
   become: true
 
-- name: escritorio | Determine latest on GitHub release of Flameshot
-  uri:
-     url: "https://api.github.com/repos/flameshot-org/flameshot/releases/latest"
-     body_format: json
+- name: escritorio | Flameshot | Get latest release
+  community.general.github_release:
+   user: flameshot-org
+   repo: flameshot
+   action: latest_release
   register: flameshot_github_release
-  until: flameshot_github_release.status == 200
-  retries: 5
-  delegate_to: localhost
-  become: false
   tags:
     - escritorio
 
-- name: escritorio | Install Flameshot package from the Github
+- name: escritorio | Flameshot | Install
   ansible.builtin.apt:
-    deb: "{{item.browser_download_url}}"
-  with_items: "{{flameshot_github_release.json.assets}}"
-  when: '"ubuntu-{{ansible_distribution_version}}" in item.name and "sha256sum" not in item.name'
+    deb: "https://github.com/flameshot-org/flameshot/releases/download/{{ flameshot_github_release.tag }}/flameshot-{{ flameshot_github_release.tag | regex_search('[0-9.]+') }}-1.ubuntu-{{ ansible_distribution_version }}.amd64.deb"
+  when: ansible_distribution == "Ubuntu"
   become: true
   tags:
     - escritorio
