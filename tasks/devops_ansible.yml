@@ -29,7 +29,21 @@
   tags:
     - devops
 
-- name: devops |ansible | requerimiento para creación de streams en Graylog
+- name: devops | ansible | actualizar requerimientos
+  pip:
+    name: "{{ item }}"
+    state: latest
+    executable: /usr/local/bin/pip
+  loop:
+    - setuptools
+    - wheel
+    - ansible
+    - github3.py
+  become: true
+  tags:
+    - devops
+
+- name: devops | ansible | requerimiento para creación de streams en Graylog
   pip:
     name: jmespath
 
@@ -48,3 +62,4 @@
   tags:
     - devops
     - ansible
+    
