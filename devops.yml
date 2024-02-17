@@ -75,11 +75,62 @@
       tags:
         - devops
         - kubernetes
-        - kubectl
+
+    - name: "Kubecolor | Get latest release"
+      community.general.github_release:
+        user: hidetatz
+        repo: kubecolor
+        action: latest_release
+      register: kubecolor_github_release
+      tags:
+        - devops
+        - kubernetes
+        - kubecolor
+
+    - name: "Kubecolor | Ensure tomcat directory exists"
+      ansible.builtin.file:
+        path: /tmp/kubecolor
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+      tags:
+        - devops
+        - kubernetes
+        - kubecolor
+
+    - name: "Kubecolor | Extract some files"
+      ansible.builtin.unarchive:
+        src: "https://github.com/hidetatz/kubecolor/releases/download/{{ kubecolor_github_release.tag }}/kubecolor_{{ kubecolor_github_release.tag | regex_search('[0-9.]+') }}_Linux_x86_64.tar.gz"
+        dest: /tmp/kubecolor
+        remote_src: true
+      tags:
+        - devops
+        - kubernetes
+        - kubecolor
+
+    - name: "Kubecolor | Installation"
+      ansible.builtin.copy:
+        src: /tmp/kubecolor/kubecolor
+        dest: /usr/local/bin
+        owner: root
+        group: root
+        mode: "0755"
+      tags:
+        - devops
+        - kubernetes
+        - kubecolor
+       
+      tags:
+        - devops
+        - kubernetes
+        - kubecolor
+
 
     # - name: "Install Lens"
     #   ansible.builtin.include_tasks:
     #     file: tasks/install_lens.yml
     #   tags:
     #     - devops
+    #     - kubernetes
 
