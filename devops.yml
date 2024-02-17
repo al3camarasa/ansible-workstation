@@ -47,7 +47,7 @@
         - devops
         - ansible
 
-    - name: "Kubeselect | Installation"
+    - name: "Kubeselect | Clone repo"
       ansible.builtin.git:
         repo: https://github.com/fatliverfreddy/kubeselect.git
         dest: /tmp/kubeselect
@@ -56,7 +56,7 @@
         - devops
         - kubernetes
 
-    - name: "Kubeselect | Installation"
+    - name: "Kubeselect | Install"
       ansible.builtin.copy:
         dest: /usr/local/bin
         follow: false
@@ -87,7 +87,7 @@
         - kubernetes
         - kubecolor
 
-    - name: "Kubecolor | Ensure tomcat directory exists"
+    - name: "Kubecolor | Ensure directory exists"
       ansible.builtin.file:
         path: /tmp/kubecolor
         state: directory
@@ -109,7 +109,7 @@
         - kubernetes
         - kubecolor
 
-    - name: "Kubecolor | Installation"
+    - name: "Kubecolor | Install"
       ansible.builtin.copy:
         src: /tmp/kubecolor/kubecolor
         dest: /usr/local/bin
@@ -120,12 +120,29 @@
         - devops
         - kubernetes
         - kubecolor
-       
+
+    - name: "Kubens | Get latest release"
+      community.general.github_release:
+        user: ahmetb
+        repo: kubectx
+        action: latest_release
+      register: kubens_github_release
       tags:
         - devops
         - kubernetes
-        - kubecolor
+        - kubens
 
+    - name: "Kubens | Install"
+      ansible.builtin.get_url:
+        url: https://github.com/ahmetb/kubectx/releases/download/{{ kubens_github_release.tag }}/kubens
+        dest: /usr/local/bin/kubens
+        owner: root
+        group: root
+        mode: "0755"
+      tags:
+        - devops
+        - kubernetes
+        - kubens
 
     # - name: "Install Lens"
     #   ansible.builtin.include_tasks:
