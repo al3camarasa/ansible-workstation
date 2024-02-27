@@ -144,6 +144,14 @@
         - kubernetes
         - kubens
 
+    - name: "K9S | Install"
+      ansible.legacy.shell: curl -sS https://webinstall.dev/k9s | bash
+      become_user: "{{ devops_user_name }}"
+      tags:
+        - devops
+        - kubernetes
+        - k9s
+
     # - name: "Install Lens"
     #   ansible.builtin.include_tasks:
     #     file: tasks/install_lens.yml
