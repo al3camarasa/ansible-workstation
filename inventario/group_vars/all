@@ -20,7 +20,6 @@ list_of_snap_escritorio:
 - audacity
 - chromium
 - keepassxc
-- libreoffice
 - slack
 - spotify
 - telegram-desktop
@@ -28,6 +27,7 @@ list_of_snap_escritorio:
 - todoist
 - vlc
 - zoom-client
+
 # list_of_remove_snap:
 # - firefox
 
