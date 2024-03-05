@@ -152,6 +152,16 @@
         - kubernetes
         - k9s
 
+    - name: "devops | K9S | Create a symlink to k9s"
+      ansible.builtin.file:
+        src: "/home/{{ devops_user_name }}/.local/bin/k9s"
+        dest: "/usr/bin/k9s"
+        state: link
+      tags:
+        - devops
+        - kubernetes
+        - k9s
+
     # - name: "devops | Install Lens"
     #   ansible.builtin.include_tasks:
     #     file: tasks/install_lens.yml
