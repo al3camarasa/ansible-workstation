@@ -69,6 +69,7 @@
       - typecatcher
       - visualvm
       - vokoscreen
+      - obs-studio
     state: present
   become: true
 
