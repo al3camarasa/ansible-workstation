@@ -9,8 +9,15 @@
     ansible.builtin.include_tasks: "tasks/paquetes_de_escritorio.yml"
 
   - name: escritorio | instala aplicaciones con flatpak
-    import_tasks: tasks/instala_flatpak.yml
+    ansible.builtin.import_tasks: tasks/instala_flatpak.yml
     when: ansible_distribution == "Ubuntu" and list_of_flatpak is defined
     tags:
       - escritorio
       - flatpak
+
+  - name: Include role rclone
+    ansible.builtin.include_role:
+      name: ansible-role-protonvpn
+    tags:
+      - escritorio
+      - protonvpn
