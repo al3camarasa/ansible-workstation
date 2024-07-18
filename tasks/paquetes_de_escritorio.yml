@@ -59,6 +59,9 @@
       - filezilla
       - gufw
       - folder-color
+      - fontforge
+      - woff2
+      - font-manager
       - gnome-shell-extensions
       - gnome-tweaks
       - gnome-disk-utility
