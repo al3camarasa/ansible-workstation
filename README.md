@@ -25,7 +25,7 @@ git clone https://github.com/al3camarasa/ansible-workstation.git
 ```bash
 sudo apt-get install -y python3-pip
 sudo -H python3 -m pip install --upgrade pip setuptools wheel github3.py
-sudo -H python3 -m pip install --user ansible-core==2.16.3
+sudo -H python3 -m pip install --user ansible-core==2.15
 ansible-galaxy collection install community.general
 ```
 

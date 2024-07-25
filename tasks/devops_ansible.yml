@@ -4,7 +4,7 @@
   pip:
     name: molecule
     state: latest
-    executable: /usr/local/bin/pip
+    executable: /usr/local/bin/pip3
   become: true
   tags:
     - devops
@@ -14,7 +14,7 @@
   pip:
     name: pyvmomi
     state: latest
-    executable: /usr/local/bin/pip
+    executable: /usr/local/bin/pip3
   become: true
   tags:
     - devops
@@ -24,7 +24,16 @@
   pip:
     name: shyaml
     state: latest
-    executable: /usr/local/bin/pip
+    executable: /usr/local/bin/pip3
+  become: true
+  tags:
+    - devops
+
+- name: devops | ansible install
+  ansible.builtin.pip:
+    name: ansible-core=={{ ansible_version_install }}
+    extra_args: --user
+    executable: /usr/local/bin/pip3
   become: true
   tags:
     - devops
@@ -33,11 +42,10 @@
   pip:
     name: "{{ item }}"
     state: latest
-    executable: /usr/local/bin/pip
+    executable: /usr/local/bin/pip3
   loop:
     - setuptools
     - wheel
-    - ansible
     - github3.py
   become: true
   tags:
@@ -48,7 +56,7 @@
     name: jmespath
 
     state: latest
-    executable: /usr/local/bin/pip
+    executable: /usr/local/bin/pip3
   become: true
   tags:
     - devops
