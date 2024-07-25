@@ -31,7 +31,7 @@
 
 - name: devops | ansible install
   ansible.builtin.pip:
-    name: ansible-core=={{ ansible_version_install }}
+    name: ansible-core=={{ ansible_version_install | default('2.16.3') }}
     extra_args: --user
     executable: /usr/local/bin/pip3
   become: true
