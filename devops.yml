@@ -48,27 +48,27 @@
         - ansible
 
     ##FIXME: use https://github.com/sbreitf1/kubeselect
-    # - name: "devops | Kubeselect | Clone repo"
-    #   ansible.builtin.git:
-    #     repo: https://github.com/fatliverfreddy/kubeselect.git
-    #     dest: /tmp/kubeselect
-    #     version: master
-    #   tags:
-    #     - devops
-    #     - kubernetes
+    - name: "devops | Kubeselect | Clone repo"
+      ansible.builtin.git:
+        repo: https://github.com/al3camarasa/kubeselect.git
+        dest: /tmp/kubeselect
+        version: v0.0.1
+      tags:
+        - devops
+        - kubernetes
 
-    # - name: "devops | Kubeselect | Install"
-    #   ansible.builtin.copy:
-    #     dest: /usr/local/bin
-    #     follow: false
-    #     force: true
-    #     group: root
-    #     mode: "0755"
-    #     owner: root
-    #     src: /tmp/kubeselect/kubeselect
-    #   tags:
-    #     - devops
-    #     - kubernetes
+    - name: "devops | Kubeselect | Install"
+      ansible.builtin.copy:
+        dest: /usr/local/bin
+        follow: false
+        force: true
+        group: root
+        mode: "0755"
+        owner: root
+        src: /tmp/kubeselect/kubeselect
+      tags:
+        - devops
+        - kubernetes
 
     - name: "devops | Install kubectl"
       ansible.builtin.import_tasks:
