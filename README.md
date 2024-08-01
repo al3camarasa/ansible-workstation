@@ -92,6 +92,7 @@ Modificar en el archivo ```inventario/host_vars/localhost``` las variables:
   - ftp_proxy: 'http://IP:3128'.
   - no_proxy: ''.
   - soap_use_proxy: ''.
+  - ansible_version_deseada: '2.15.0'
 
 Luego ejecutamos Ansible:
 
