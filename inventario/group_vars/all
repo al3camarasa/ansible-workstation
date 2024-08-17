@@ -15,7 +15,6 @@ list_of_remove_apt:
 
 # Snap
 list_of_snap_escritorio:
-- authy
 - brave
 - audacity
 - chromium
