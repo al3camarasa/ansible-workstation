@@ -1,41 +1,40 @@
----
 
 - name: Apt | instala paquetes generales
   apt:
     name:
-      - aptitude
-      - arp-scan
-      - curl
-      - htop
-      - gedit
-      - git
-      - g++
-      - gcc
-      - gnupg2
-      - graphicsmagick-imagemagick-compat
-      - jq
-      - ldap-utils
-      - net-tools
-      - nocache
-      - nscd
-      - ntfs-3g
-      - mc
-      - openssh-server
-      - qemu-system-x86
-      - pwgen
-      - python3-apt
-      - rdiff-backup
-      - rsync
-      - smbclient
-      - smartmontools
-      - socat
-      - testdisk
-      - ffmpegthumbnailer
-      - lm-sensors
-      - screen
-      - w3m
-      - wget
-      - whois
+    - aptitude
+    - arp-scan
+    - curl
+    - htop
+    - gedit
+    - git
+    - g++
+    - gcc
+    - gnupg2
+    - graphicsmagick-imagemagick-compat
+    - jq
+    - ldap-utils
+    - net-tools
+    - nocache
+    - nscd
+    - ntfs-3g
+    - mc
+    - openssh-server
+    - qemu-system-x86
+    - pwgen
+    - python3-apt
+    - rdiff-backup
+    - rsync
+    - smbclient
+    - smartmontools
+    - socat
+    - testdisk
+    - ffmpegthumbnailer
+    - lm-sensors
+    - screen
+    - w3m
+    - wget
+    - whois
     state: present
   become: true
 
@@ -51,28 +50,29 @@
 - name: Apt | instala aplicaciones Gnome
   apt:
     name:
-      - alacarte
-      - aspell-es
-      - bleachbit
-      - calibre
-      - dconf-editor
-      - filezilla
-      - gufw
-      - folder-color
-      - fontforge
-      - woff2
-      - font-manager
-      - gnome-shell-extensions
-      - gnome-tweaks
-      - gnome-disk-utility
-      - gnome-system-monitor
-      - gnome-shell-pomodoro
-      - jmeter
-      - ttf-mscorefonts-installer
-      - typecatcher
-      - visualvm
-      - vokoscreen
-      - obs-studio
+    - alacarte
+    - aspell-es
+    - bleachbit
+    - calibre
+    - dconf-editor
+    - filezilla
+    - gufw
+    - folder-color
+    - fontforge
+    - woff2
+    - font-manager
+    - gnome-shell-extensions
+    - gnome-tweaks
+    - gnome-disk-utility
+    - gnome-system-monitor
+    - gnome-shell-pomodoro
+    - jmeter
+    - ttf-mscorefonts-installer
+    - typecatcher
+    - visualvm
+    - vokoscreen
+    - obs-studio
+    - shotcut
     state: present
   become: true
 
@@ -82,11 +82,11 @@
     state: absent
     purge: yes
   loop: "{{ list_of_remove_apt }}"
-  when:  list_of_remove_apt is defined and list_of_remove_apt != None
+  when: list_of_remove_apt is defined and list_of_remove_apt != None
   become: true
   tags:
-   - escritorio
-   - snap
+  - escritorio
+  - snap
 
 #FIXME: remove on the Ubuntu 24.04 LTS “Noble Numbat” installation 
 - name: Apt | Install a .deb indicator_cpufreq from mantic repository
@@ -100,95 +100,95 @@
 - name: Apt | utilidades de compresión
   apt:
     name:
-      - p7zip-rar
-      - p7zip-full
-      - unace
-      - unrar
-      - zip
-      - unzip
-      - mpack
-      - arj
-      - cabextract
+    - p7zip-rar
+    - p7zip-full
+    - unace
+    - unrar
+    - zip
+    - unzip
+    - mpack
+    - arj
+    - cabextract
     state: present
   become: true
 
 - name: Apt | instala Open JDK 11
   apt:
     name:
-      - openjdk-11-jdk
+    - openjdk-11-jdk
     state: present
   become: true
   tags:
-    - java
+  - java
 
-- name: Apt | Lector de epub, mobi 
+- name: Apt | Lector de epub, mobi
   apt:
     name:
-      - fbreader
+    - fbreader
     state: present
   become: true
 
 - name: Apt | instala aplicativos para el manejo de imágenes y video
   apt:
     name:
-      - gthumb
-      - pinta
-      - webp
-      - winff
+    - gthumb
+    - pinta
+    - webp
+    - winff
     state: present
   become: true
-  
+
 - name: Apt | privacidad
   apt:
     name:
-      - popularity-contest
+    - popularity-contest
     state: absent
     purge: yes
   when: ansible_distribution == "Ubuntu"
   become: true
-    
+
 - name: escritorio | instala aplicaciones con snap
   snap:
     name: "{{ item }}"
     classic: yes
   with_items:
-    - "{{ list_of_snap_escritorio }}"
+  - "{{ list_of_snap_escritorio }}"
   become: true
   tags:
-    - escritorio
-    - snap
+  - escritorio
+  - snap
 
 - name: escritorio | desinstala aplicaciones con snap
   snap:
     name: "{{ item }}"
     state: absent
   with_items:
-    - "{{ list_of_remove_snap }}"
+  - "{{ list_of_remove_snap }}"
   become: true
   tags:
-    - escritorio
-    - snap
+  - escritorio
+  - snap
   when: list_of_remove_snap is defined
 
 - name: escritorio | habilitar acceso a las aplicaciones con snap en /media
   raw: snap connect {{ item }}:removable-media
   with_items:
-    - "{{ list_of_snap_access_media }}"
+  - "{{ list_of_snap_access_media }}"
   when: list_of_snap_access_media is defined
   become: true
   tags:
-    - escritorio
-    - snap
+  - escritorio
+  - snap
 
 - name: escritorio | habilitar acceso USB a las aplicaciones con snap
   raw: snap connect {{ item }}:raw-usb
   with_items:
-    - "{{ list_of_snap_access_usb }}"
+  - "{{ list_of_snap_access_usb }}"
   when: list_of_snap_access_usb is defined
   become: true
   tags:
-    - escritorio
-    - snap
+  - escritorio
+  - snap
 
 - name: escritorio | install speedtest
   pip:
@@ -199,12 +199,12 @@
 
 - name: escritorio | Flameshot | Get latest release
   community.general.github_release:
-   user: flameshot-org
-   repo: flameshot
-   action: latest_release
+    user: flameshot-org
+    repo: flameshot
+    action: latest_release
   register: flameshot_github_release
   tags:
-    - escritorio
+  - escritorio
 
 - name: escritorio | Flameshot | Install
   ansible.builtin.apt:
@@ -212,12 +212,12 @@
   when: ansible_distribution == "Ubuntu"
   become: true
   tags:
-    - escritorio
+  - escritorio
 
 - name: Apt | install Tor
   apt:
     name:
-      - tor
-      - torbrowser-launcher
+    - tor
+    - torbrowser-launcher
     state: present
   become: true
