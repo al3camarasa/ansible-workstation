@@ -1,6 +1,6 @@
----
 # VeraCrypt
-veracrypt_download_page_url: "https://launchpad.net/veracrypt/trunk/1.26.7/+download/veracrypt-1.26.7-Ubuntu-22.04-amd64.deb"
+veracrypt_version: 1.26.14
+veracryp_sha256_expected: "26d80ce138e3293390ac031d967d56c70ee0318a5876c350721c2c8bb5c7f215"
 
 # Rclone
 rclone_arch: amd64
