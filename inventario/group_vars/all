@@ -15,7 +15,6 @@ list_of_remove_apt:
 
 # Snap
 list_of_snap_escritorio:
-- brave
 - audacity
 - chromium
 - keepassxc
