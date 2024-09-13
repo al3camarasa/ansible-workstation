@@ -44,7 +44,7 @@ list_of_snap_access_usb:
 # Gnome
 path_wallpapers: "/home/{{devops_user_name}}/Imágenes/wallpapers"
 file_ext: "jpg"
-wallpapers_url: "https://wallpapercave.com/wp/wp4327153.jpg"
+wallpapers_url: "https://unsplash.com/photos/n--CMLApjfI/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzI2MjQzMjAxfA&force=true"
 
 # TLP
 # You can configure start and stop thresholds per battery.
