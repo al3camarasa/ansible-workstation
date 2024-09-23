@@ -6,18 +6,23 @@
 
   tasks:
 
-  - name: Office | Instala paquete de chat obsoleto
-    ansible.builtin.apt:
-      name:
-        - pidgin
-        - pidgin-otr
-      state: present
+  - name: Office | Get latest release de Mattermost-desktop
+    ansible.builtin.uri:
+      url: https://api.github.com/repos/mattermost/desktop/releases/latest
+      return_content: yes
+    register: github_release
 
-  - name: Office | Instala cliente Icinga
-    ansible.builtin.apt:
-      name: nagstamon
-      state: present
+  - name: Office | Set mattermost_version fact
+    ansible.builtin.set_fact:
+      mattermost_version: "{{ github_release.json.tag_name | regex_replace('^v', '') }}"
 
+  - ansible.builtin.debug:
+      var: mattermost_version
+
+  - name: Office | Install Mattermost Desktop
+    ansible.builtin.apt:
+      deb: "https://releases.mattermost.com/desktop/{{ mattermost_version }}/mattermost-desktop_{{ mattermost_version }}-1_amd64.deb"
+    
   - name: Git | Certificados a usar en el sistema
     ansible.builtin.command: echo -n | openssl s_client -showcerts -connect {{ office_git }}:443 2>/dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo bash -c "cat - > /usr/local/share/ca-certificates/{{ office_git }}.crt"
     changed_when: false
