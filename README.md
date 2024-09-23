@@ -160,7 +160,8 @@ mkdir -p inventario/{group_vars,host_vars}
       - "iptables -I INPUT -p tcp --dport 3389 -s {{ firewall_ip_vpn  }} -j ACCEPT -m comment --comment 'Regla de entrada para RDP'"
       ...
       ...
-     firewall_deny_tcp_ports: false```
+     firewall_deny_tcp_ports: false
+  ```
 
 Luego ejecutamos Ansible:
 
