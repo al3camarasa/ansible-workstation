@@ -99,12 +99,14 @@
         - devops
         - kubernetes
         - kubecolor
+      when: kubecolor_github_release is defined
 
     - name: "devops | Kubecolor | Extract some files"
       ansible.builtin.unarchive:
         src: "https://github.com/hidetatz/kubecolor/releases/download/{{ kubecolor_github_release.tag }}/kubecolor_{{ kubecolor_github_release.tag | regex_search('[0-9.]+') }}_Linux_x86_64.tar.gz"
         dest: /tmp/kubecolor
         remote_src: true
+      when: kubecolor_github_release is defined
       tags:
         - devops
         - kubernetes
@@ -117,6 +119,7 @@
         owner: root
         group: root
         mode: "0755"
+      when: kubecolor_github_release is defined
       tags:
         - devops
         - kubernetes
@@ -140,6 +143,7 @@
         owner: root
         group: root
         mode: "0755"
+      when: kubens_github_release is defined
       tags:
         - devops
         - kubernetes

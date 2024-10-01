@@ -17,6 +17,7 @@
 
   - name: "Install Veracrypt"
     ansible.builtin.include_tasks: "tasks/instala_veracrypt.yml"
+    when: veracrypt_version is defined
     tags: [veracrypt]
 
   - name: "Install rclone"
