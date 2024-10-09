@@ -40,7 +40,8 @@ ansible-galaxy collection install community.general
 ```
 Ejecutar `pip --version` para verificar el comando, de lo contrario, crear el link simbólico co
 
-```bash sudo ln -s /home/[devops_user_name]/.local/bin/pip /usr/local/bin/pip
+```bash 
+sudo ln -s /home/[devops_user_name]/.local/bin/pip /usr/local/bin/pip
 ```
 
 Verificado con Ansible v2.16.3, Python v3.10.12.
