@@ -17,11 +17,17 @@ sudo apt install git
 ```bash
 sudo visudo
 ```
-modificando la linea:
+modificando la línea:
 
 ```yml
 %sudo   ALL=(ALL:ALL) NOPASSWD:ALL
 ```
+
+## 1.3 Verificar la existencia del archivo de Swap
+```bash
+ls /swapfile
+```
+En el caso de que no exista, [crearlo](https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-20-04).
 
 ## 1.3. Clone de los repositorios
 
@@ -37,11 +43,6 @@ sudo apt-get install -y python3-pip
 python3 -m pip install --upgrade pip setuptools wheel github3.py
 python3 -m pip install --user ansible-core==2.15
 ansible-galaxy collection install community.general
-```
-Ejecutar `pip --version` para verificar el comando, de lo contrario, crear el link simbólico co
-
-```bash 
-sudo ln -s /home/[devops_user_name]/.local/bin/pip /usr/local/bin/pip
 ```
 
 Verificado con Ansible v2.16.3, Python v3.10.12.
@@ -113,6 +114,11 @@ Luego ejecutamos Ansible:
 
 ```bash
 time ansible-playbook -vv -i inventario/hosts site.yml --limit localhost --tags proxy,performance,locales,snap,ansible,git,virtualbox,vagrant,docker,microsoft_visualstudio_code,packer,vmware-workstation
+```
+
+Si se da el error: `"msg": "[Errno 2] No existe el archivo o el directorio: b'/usr/local/bin/pip'"` aplicar:
+```bash 
+sudo ln -s /home/[devops_user_name]/.local/bin/pip /usr/local/bin/pip
 ```
 
 # 2. Instalación de los aplicativos custom
