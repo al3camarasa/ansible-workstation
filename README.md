@@ -13,14 +13,24 @@ sudo apt update
 sudo apt install git
 ```
 
-## 1.2. Clone de los repositorios
+## 1.2. sudo configurado para correr sin pedir contraseña
+```bash
+sudo visudo
+```
+modificando la linea:
+
+```yml
+%sudo   ALL=(ALL:ALL) NOPASSWD:ALL
+```
+
+## 1.3. Clone de los repositorios
 
 ```bash
 git clone https://github.com/CesarBallardini/ansible-devops-workstation.git
 git clone https://github.com/al3camarasa/ansible-workstation.git
 ```
 
-## 1.3. Instale los requisitos para que funcione Ansible
+## 1.4. Instale los requisitos para que funcione Ansible
 
 ```bash
 sudo apt-get install -y python3-pip
@@ -28,10 +38,14 @@ python3 -m pip install --upgrade pip setuptools wheel github3.py
 python3 -m pip install --user ansible-core==2.15
 ansible-galaxy collection install community.general
 ```
+Ejecutar `pip --version` para verificar el comando, de lo contrario, crear el link simbólico co
+
+```bash sudo ln -s /home/[devops_user_name]/.local/bin/pip /usr/local/bin/pip
+```
 
 Verificado con Ansible v2.16.3, Python v3.10.12.
 
-## 1.4. Instalar con Ansible el resto del software
+## 1.5. Instalar con Ansible el resto del software
 
 ```bash
 cd ansible-devops-workstation/
@@ -40,7 +54,7 @@ ansible-galaxy install -r requirements.yml -p roles/
 
 A partir de este momento, el resto de las actividades las realizaremos desde ese directorio.
 
-## 1.5. Crear un inventario para su local
+## 1.6. Crear un inventario para su local
 
 * el directorio para el inventario:
 
@@ -92,7 +106,7 @@ Modificar en el archivo ```inventario/host_vars/localhost``` las variables:
   - ftp_proxy: 'http://IP:3128'.
   - no_proxy: ''.
   - soap_use_proxy: ''.
-  - ansible_version_deseada: '10.2'                                                                 # https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html
+  - ansible_version_deseada: '8.7.0'                                                                 # https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html
 
 Luego ejecutamos Ansible:
 
