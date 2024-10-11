@@ -45,7 +45,7 @@ python3 -m pip install --user ansible-core==2.15
 ansible-galaxy collection install community.general
 ```
 
-Verificado con Ansible v2.16.3, Python v3.10.12.
+Verificado con Ansible v2.17.2 Python v3.10.12.
 
 ## 1.5. Instalar con Ansible el resto del software
 
