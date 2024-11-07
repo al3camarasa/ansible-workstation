@@ -102,6 +102,7 @@
         - devops
         - kubernetes
         - kubecolor
+      when: kubecolor_github_release is defined
 
     - name: "devops | Kubecolor | Extract some files"
       ansible.builtin.unarchive:

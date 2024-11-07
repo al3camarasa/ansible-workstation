@@ -13,7 +13,23 @@ sudo apt update
 sudo apt install git
 ```
 
-## 1.2. Clone de los repositorios
+## 1.2. sudo configurado para correr sin pedir contraseña
+```bash
+sudo visudo
+```
+modificando la línea:
+
+```yml
+%sudo   ALL=(ALL:ALL) NOPASSWD:ALL
+```
+
+## 1.3 Verificar la existencia del archivo de Swap
+```bash
+ls /swapfile
+```
+En el caso de que no exista, [crearlo](https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-20-04).
+
+## 1.3. Clone de los repositorios
 
 ```bash
 git clone https://github.com/CesarBallardini/ansible-devops-workstation.git
@@ -21,7 +37,6 @@ git clone https://github.com/al3camarasa/ansible-workstation.git
 ```
 
 ## 1.3. Instale los requisitos para que funcione Ansible 2.15
-......
 
 ## 1.4. Instale los requisitos para que funcione Ansible superior a 2.15
 
@@ -113,6 +128,11 @@ Luego ejecutamos Ansible:
 
 ```bash
 time ${PYTHON_LOCAL_VENV}/ansible-playbook -vv -i inventario/hosts site.yml --limit localhost --tags proxy,performance,locales,snap,ansible,git,virtualbox,vagrant,docker,microsoft_visualstudio_code,packer,vmware-workstation
+```
+
+Si se da el error: `"msg": "[Errno 2] No existe el archivo o el directorio: b'/usr/local/bin/pip'"` aplicar:
+```bash 
+sudo ln -s /home/[devops_user_name]/.local/bin/pip /usr/local/bin/pip
 ```
 
 # 2. Instalación de los aplicativos custom
