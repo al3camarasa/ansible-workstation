@@ -2,6 +2,8 @@
   - hosts: devops
     become: true
     tags: devops
+    environment:
+      PYTHONPATH: "{{ python_path | default('')  }}"
 
     tasks:
     - name: "Apt | instala aplicaciones Gnome"
@@ -95,6 +97,7 @@
         owner: root
         group: root
         mode: "0755"
+      when: kubecolor_github_release is defined
       tags:
         - devops
         - kubernetes
@@ -105,6 +108,7 @@
         src: "https://github.com/hidetatz/kubecolor/releases/download/{{ kubecolor_github_release.tag }}/kubecolor_{{ kubecolor_github_release.tag | regex_search('[0-9.]+') }}_Linux_x86_64.tar.gz"
         dest: /tmp/kubecolor
         remote_src: true
+      when: kubecolor_github_release is defined
       tags:
         - devops
         - kubernetes
@@ -117,6 +121,7 @@
         owner: root
         group: root
         mode: "0755"
+      when: kubecolor_github_release is defined
       tags:
         - devops
         - kubernetes
@@ -140,6 +145,7 @@
         owner: root
         group: root
         mode: "0755"
+      when: kubens_github_release is defined
       tags:
         - devops
         - kubernetes

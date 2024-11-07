@@ -20,27 +20,40 @@ git clone https://github.com/CesarBallardini/ansible-devops-workstation.git
 git clone https://github.com/al3camarasa/ansible-workstation.git
 ```
 
-## 1.3. Instale los requisitos para que funcione Ansible
+## 1.3. Instale los requisitos para que funcione Ansible 2.15
+......
+
+## 1.4. Instale los requisitos para que funcione Ansible superior a 2.15
+
+Agregar la variable con el path del virtualenv de Python en el `.barhrc`
+```bash
+PYTHON_LOCAL_VENV=/usr/local/venv-ansible-2.17/bin
+```
 
 ```bash
 sudo apt-get install -y python3-pip
-python3 -m pip install --upgrade pip setuptools wheel github3.py
-python3 -m pip install --user ansible-core==2.15
-ansible-galaxy collection install community.general
+pip install shyaml --break-system-packages
+[ -d "${PYTHON_LOCAL_VENV}" ] || sudo python3 -m venv "${PYTHON_LOCAL_VENV}"
+sudo chown -R "${USER}" "${PYTHON_LOCAL_VENV}"
+${PYTHON_LOCAL_VENV}/python -m pip install --upgrade pip setuptools wheel github3.py
+${PYTHON_LOCAL_VENV}/python -m pip install  ansible-core==2.17
+${PYTHON_LOCAL_VENV}/ansible --version
+${PYTHON_LOCAL_VENV}/ansible-galaxy collection install community.general --force
+${PYTHON_LOCAL_VENV}/ansible-galaxy collection install ansible.posix
 ```
 
-Verificado con Ansible v2.16.3, Python v3.10.12.
+Verificado con Ansible v2.17.5, Python v3.12.3.
 
-## 1.4. Instalar con Ansible el resto del software
+## 1.5. Instalar con Ansible el resto del software
 
 ```bash
 cd ansible-devops-workstation/
-ansible-galaxy install -r requirements.yml -p roles/
+${PYTHON_LOCAL_VENV}/ansible-galaxy install -r requirements.yml -p roles/
 ```
 
 A partir de este momento, el resto de las actividades las realizaremos desde ese directorio.
 
-## 1.5. Crear un inventario para su local
+## 1.6. Crear un inventario para su local
 
 * el directorio para el inventario:
 
@@ -92,12 +105,14 @@ Modificar en el archivo ```inventario/host_vars/localhost``` las variables:
   - ftp_proxy: 'http://IP:3128'.
   - no_proxy: ''.
   - soap_use_proxy: ''.
-  - ansible_version_deseada: '10.2'                                                                 # https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html
+  - python_venv: '/usr/local/venv-ansible-2.17'.
+  
+Si estamos utilizando la versión de `Ansible es la 2.15`, setear la variable `ansible_version_deseada: '8.7.0` https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html
 
 Luego ejecutamos Ansible:
 
 ```bash
-time ansible-playbook -vv -i inventario/hosts site.yml --limit localhost --tags proxy,performance,locales,snap,ansible,git,virtualbox,vagrant,docker,microsoft_visualstudio_code,packer,vmware-workstation
+time ${PYTHON_LOCAL_VENV}/ansible-playbook -vv -i inventario/hosts site.yml --limit localhost --tags proxy,performance,locales,snap,ansible,git,virtualbox,vagrant,docker,microsoft_visualstudio_code,packer,vmware-workstation
 ```
 
 # 2. Instalación de los aplicativos custom
@@ -105,7 +120,7 @@ time ansible-playbook -vv -i inventario/hosts site.yml --limit localhost --tags 
 ```bash
 cd ..
 cd ansible-workstation/
-ansible-galaxy install -r requirements.yml -p roles/
+${PYTHON_LOCAL_VENV}/ansible-galaxy install -r requirements.yml -p roles/
 ```
 
 * Como en el anterior inventario ```inventario/hosts```, agregar la dirección **localhost** al perfil que corresponde al equipo.
@@ -162,11 +177,12 @@ mkdir -p inventario/{group_vars,host_vars}
       ...
      firewall_deny_tcp_ports: false
   ```
+- ```python_path:``` "/usr/local/venv-ansible-2.17/lib/python3.12/site-packages"
 
 Luego ejecutamos Ansible:
 
 ```bash
-time ansible-playbook -vv -i inventario/hosts site.yml --extra-vars "@inventario/host_vars/[nombre-host]" --limit localhost
+time ${PYTHON_LOCAL_VENV}/ansible-playbook -vv -i inventario/hosts site.yml --extra-vars "@inventario/host_vars/[nombre-host]" --limit localhost
 ```
 
 # 3. Cómo comprobar los playbooks mediante Vagrant y VirtualBox

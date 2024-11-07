@@ -1,73 +1,64 @@
 ---
 
-- name: devops | ansible | instala molecule
-  pip:
-    name: molecule
-    state: latest
-    executable: /usr/local/bin/pip3
-  become: true
+- name: devops | ansible | actualizar requerimientos
+  ansible.builtin.pip:
+    name:
+      - molecule
+      - setuptools
+      - wheel
+    virtualenv: "{{ python_venv | default('venv-ansible-{{ ansible_version }}') }}"
+    virtualenv_command: python3 -m venv
+    # virtualenv_python: "{{ python_version }}"
+  environment:
+    PIP_BREAK_SYSTEM_PACKAGES: '1'
   tags:
     - devops
     - ansible
 
 - name: devops | ansible | requerimiento para creación de VM en Vsphere
-  pip:
-    name: pyvmomi
-    state: latest
-    executable: /usr/local/bin/pip3
-  become: true
+  ansible.builtin.pip:
+    name:
+      - pyvmomi
+    virtualenv: "{{ python_venv | default('venv-ansible-{{ ansible_version }}') }}"
+    virtualenv_command: python3 -m venv
+  environment:
+    PIP_BREAK_SYSTEM_PACKAGES: '1'
   tags:
     - devops
     - ansible
 
 - name: devops | script that allow read access to YAML files through command line
-  pip:
-    name: shyaml
-    state: latest
-    executable: /usr/local/bin/pip3
-  become: true
-  tags:
-    - devops
-
-# - name: devops | ansible install
-#   ansible.builtin.pip:
-#     name: ansible-core=={{ ansible_version_install | default('2.16.3') }}
-#     extra_args: --user
-#     executable: /usr/local/bin/pip3
-#   become: true
-#   tags:
-#     - devops
-
-- name: devops | ansible | actualizar requerimientos
-  pip:
-    name: "{{ item }}"
-    state: latest
-    executable: /usr/local/bin/pip3
-  loop:
-    - setuptools
-    - wheel
-    - github3.py
-  become: true
-  tags:
-    - devops
-
-- name: devops | ansible | requerimiento para creación de streams en Graylog
-  pip:
-    name: jmespath
-
-    state: latest
-    executable: /usr/local/bin/pip3
-  become: true
-  tags:
-    - devops
-
-- name: Apt | requerimiento para creación de VM en Vsphere
-  apt:
+  ansible.builtin.pip:
     name:
-      - sshpass
-    state: present
-  become: true
+      - shyaml
+    virtualenv: "{{ python_venv | default('venv-ansible-{{ ansible_version }}') }}"
+    virtualenv_command: python3 -m venv
+  environment:
+    PIP_BREAK_SYSTEM_PACKAGES: '1'
   tags:
     - devops
     - ansible
+
+# - name: devops | ansible install
+#   ansible.builtin.pip:
+#     name: ansible-core=={{ ansible_version_target | default('2.17.5') }}
+#     virtualenv: "{{ python_venv | default('venv-ansible-{{ ansible_version }}') }}"
+#     virtualenv_command: python3 -m venv
+#   environment:
+#     PIP_BREAK_SYSTEM_PACKAGES: '1'
+#   tags:
+#     - devops
+#     - ansible
+
+- name: devops | ansible | requerimiento para creación de streams en Graylog
+  ansible.builtin.pip:
+    name: jmespath
+    virtualenv: "{{ python_venv | default('venv-ansible-{{ ansible_version }}') }}"
+    virtualenv_command: python3 -m venv
+  environment:
+    PIP_BREAK_SYSTEM_PACKAGES: '1'
+  tags:
+    - devops
+    - ansible
+
     

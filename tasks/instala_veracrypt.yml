@@ -15,14 +15,18 @@
   ansible.builtin.command: sha256sum /tmp/veracrypt.deb
   register: sha256_calculated
 
+- name: Veracrypt | set veracryp_sha256_expected value
+  set_fact:
+    veracryp_sha256_current: "{{ veracryp_sha256_expected[ansible_distribution_version] }}"
+
 - name: Veracrypt | Calculate the SHA256 checksum of the downloaded file
   assert:
     that:
-    - "sha256_calculated.stdout.split()[0] == veracryp_sha256_expected"
+    - "sha256_calculated.stdout.split()[0] == veracryp_sha256_current"
     fail_msg: "La suma de verificación SHA256 no coincide"
     success_msg: "La suma de verificación SHA256 coincide"
 
 - name: Veracrypt | Install a .deb package
   ansible.builtin.apt:
     deb: /tmp/veracrypt.deb
-  when: ansible_distribution == "Ubuntu" and sha256_calculated.stdout.split()[0] == veracryp_sha256_expected
+  when: ansible_distribution == "Ubuntu" and sha256_calculated.stdout.split()[0] == veracryp_sha256_current

@@ -23,6 +23,8 @@
     - qemu-system-x86
     - pwgen
     - python3-apt
+    - python3-pip
+    - python3-venv
     - rdiff-backup
     - rsync
     - smbclient
@@ -57,7 +59,6 @@
     - dconf-editor
     - filezilla
     - gufw
-    - folder-color
     - fontforge
     - woff2
     - font-manager
@@ -132,7 +133,6 @@
   apt:
     name:
     - gthumb
-    - pinta
     - webp
     - winff
     state: present
@@ -191,10 +191,13 @@
   - snap
 
 - name: escritorio | install speedtest
-  pip:
-    name: speedtest-cli
-    state: latest
-    executable: /usr/local/bin/pip
+  ansible.builtin.pip:
+    name:
+      - speedtest-cli
+    virtualenv: "{{ python_venv | default('venv-ansible-{{ ansible_version }}') }}"
+    virtualenv_command: python3 -m venv
+  environment:
+    PIP_BREAK_SYSTEM_PACKAGES: '1'
   become: true
 
 - name: escritorio | Flameshot | Get latest release
@@ -206,9 +209,17 @@
   tags:
   - escritorio
 
+# - name: escritorio | Flameshot | Install
+#   ansible.builtin.apt:
+#     deb: "https://github.com/flameshot-org/flameshot/releases/download/{{ flameshot_github_release.tag }}/flameshot-{{ flameshot_github_release.tag | regex_search('[0-9.]+') }}-1.ubuntu-{{ ansible_distribution_version }}.amd64.deb"
+#   when: ansible_distribution == "Ubuntu"
+#   become: true
+#   tags:
+#   - escritorio
+
 - name: escritorio | Flameshot | Install
   ansible.builtin.apt:
-    deb: "https://github.com/flameshot-org/flameshot/releases/download/{{ flameshot_github_release.tag }}/flameshot-{{ flameshot_github_release.tag | regex_search('[0-9.]+') }}-1.ubuntu-{{ ansible_distribution_version }}.amd64.deb"
+    deb: "https://github.com/flameshot-org/flameshot/releases/download/{{ flameshot_github_release.tag }}/flameshot-{{ flameshot_github_release.tag | regex_search('[0-9.]+') }}-1.ubuntu-22.04.amd64.deb"
   when: ansible_distribution == "Ubuntu"
   become: true
   tags:

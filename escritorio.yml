@@ -2,6 +2,8 @@
 - name: Escritorio
   hosts: escritorio
   tags: escritorio
+  environment:
+    PYTHONPATH: "{{ python_path | default('')  }}"
 
   tasks:
 
