@@ -209,18 +209,11 @@
   tags:
   - escritorio
 
-# - name: escritorio | Flameshot | Install
-#   ansible.builtin.apt:
-#     deb: "https://github.com/flameshot-org/flameshot/releases/download/{{ flameshot_github_release.tag }}/flameshot-{{ flameshot_github_release.tag | regex_search('[0-9.]+') }}-1.ubuntu-{{ ansible_distribution_version }}.amd64.deb"
-#   when: ansible_distribution == "Ubuntu"
-#   become: true
-#   tags:
-#   - escritorio
-
 - name: escritorio | Flameshot | Install
   ansible.builtin.apt:
+    #deb: "https://github.com/flameshot-org/flameshot/releases/download/{{ flameshot_github_release.tag }}/flameshot-{{ flameshot_github_release.tag | regex_search('[0-9.]+') }}-1.ubuntu-{{ ansible_distribution_version }}.amd64.deb"
     deb: "https://github.com/flameshot-org/flameshot/releases/download/{{ flameshot_github_release.tag }}/flameshot-{{ flameshot_github_release.tag | regex_search('[0-9.]+') }}-1.ubuntu-22.04.amd64.deb"
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_version >= "22.04"
   become: true
   tags:
   - escritorio
