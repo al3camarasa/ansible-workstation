@@ -46,10 +46,10 @@ PYTHON_VENV_ANSIBLE=/usr/local/venv-ansible-2.17/bin
 ```
 
 ```bash
-sudo apt-get install -y python3-pip
+sudo apt-get install -y python3-pip python3.10-venv
 pip install shyaml --break-system-packages
-[ -d "${PYTHON_LOCAL_VENV}" ] || sudo python3 -m venv "${PYTHON_LOCAL_VENV}"
-sudo chown -R "${USER}" "${PYTHON_LOCAL_VENV}"
+[ -d "${PYTHON_VENV_ANSIBLE}" ] || sudo python3 -m venv "${PYTHON_VENV_ANSIBLE}"
+sudo chown -R "${USER}" "${PYTHON_VENV_ANSIBLE}"
 ${PYTHON_VENV_ANSIBLE}/python -m pip install --upgrade pip setuptools wheel github3.py
 ${PYTHON_VENV_ANSIBLE}/python -m pip install  ansible-core==2.17
 ${PYTHON_VENV_ANSIBLE}/ansible --version
