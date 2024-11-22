@@ -19,6 +19,7 @@ list_of_remove_apt:
 list_of_snap_escritorio:
 - audacity
 - chromium
+- dbeaver-ce
 - keepassxc
 - pinta
 - slack
