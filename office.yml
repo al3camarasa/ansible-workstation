@@ -69,6 +69,6 @@
 
   - name: Include task list to firewall install
     ansible.builtin.include_tasks: "tasks/install_firewall.yml"
-    when: firewall_ip_vpn is defined
+    when: firewall_ip is defined
     tags:
       - firewall
