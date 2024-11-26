@@ -194,7 +194,7 @@
   ansible.builtin.pip:
     name:
       - speedtest-cli
-    virtualenv: "{{ python_venv | default('venv-ansible-{{ ansible_version }}') }}"
+    virtualenv: "{{ python_venv | default('/usr/local/venv-ansible-{{ ansible_version.major }}.{{ ansible_version.minor }}') }}"
     virtualenv_command: python3 -m venv
   environment:
     PIP_BREAK_SYSTEM_PACKAGES: '1'
@@ -206,6 +206,9 @@
     repo: flameshot
     action: latest_release
   register: flameshot_github_release
+  environment:
+    PYTHONPATH: "{{ python_path | default('/usr/local/venv-ansible-{{ ansible_version.major }}.{{ ansible_version.minor }}/lib/python{{ ansible_python.version.major }}.{{ ansible_python.version.minor }}/site-packages') }}"
+    
   tags:
   - escritorio
 

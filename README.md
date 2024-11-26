@@ -51,7 +51,7 @@ pip install shyaml --break-system-packages
 [ -d "${PYTHON_VENV_ANSIBLE}" ] || sudo python3 -m venv "${PYTHON_VENV_ANSIBLE}"
 sudo chown -R "${USER}" "${PYTHON_VENV_ANSIBLE}"
 ${PYTHON_VENV_ANSIBLE}/python -m pip install --upgrade pip setuptools wheel github3.py
-${PYTHON_VENV_ANSIBLE}/python -m pip install  ansible-core==2.17
+${PYTHON_VENV_ANSIBLE}/python -m pip install ansible-core==2.17
 ${PYTHON_VENV_ANSIBLE}/ansible --version
 ${PYTHON_VENV_ANSIBLE}/ansible-galaxy collection install community.general --force
 ${PYTHON_VENV_ANSIBLE}/ansible-galaxy collection install ansible.posix
@@ -112,14 +112,16 @@ Modificar en el archivo ```inventario/host_vars/localhost``` las variables:
 
 - ```devops_user_name```: con nuestro propio nombre de usuario.
 - ```devops_user_uid```: si nuestro uid es dististo de 1000.
-- En caso que se utilice ```proxy```:
-  - organizacion: nombre.
+- ```organizacion```: Nombre-empresa.
+- En caso que se utilice ```proxy```, de lo contrario comentar las siguientes variables:
   - all_proxy: 'http://IP:3128'.
   - http_proxy: 'http://IP:3128'.
   - https_proxy: 'http://IP:3128'.
   - ftp_proxy: 'http://IP:3128'.
   - no_proxy: ''.
   - soap_use_proxy: ''.
+- Entorno de Python y versión de Ansible:
+  - ansible_version_deseada: '10.5.0'.
   - python_venv: '/usr/local/venv-ansible-2.17'.
   
 Si estamos utilizando la versión de `Ansible es la 2.15`, setear la variable `ansible_version_deseada: '8.7.0` https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html

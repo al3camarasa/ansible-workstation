@@ -2,8 +2,6 @@
   - hosts: devops
     become: true
     tags: devops
-    environment:
-      PYTHONPATH: "{{ python_path | default('')  }}"
 
     tasks:
     - name: "Apt | instala aplicaciones Gnome"
@@ -85,6 +83,8 @@
         repo: kubecolor
         action: latest_release
       register: kubecolor_github_release
+      environment:
+        PYTHONPATH: "{{ python_path | default('/usr/local/venv-ansible-{{ ansible_version.major }}.{{ ansible_version.minor }}/lib/python{{ ansible_python.version.major }}.{{ ansible_python.version.minor }}/site-packages') }}"
       tags:
         - devops
         - kubernetes
@@ -134,6 +134,8 @@
         repo: kubectx
         action: latest_release
       register: kubens_github_release
+      environment:
+        PYTHONPATH: "{{ python_path | default('/usr/local/venv-ansible-{{ ansible_version.major }}.{{ ansible_version.minor }}/lib/python{{ ansible_python.version.major }}.{{ ansible_python.version.minor }}/site-packages') }}"
       tags:
         - devops
         - kubernetes
