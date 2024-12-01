@@ -29,11 +29,15 @@
     when: tlp_batteries is defined
     tags: [battery]
 
+  - name: "Definir la variable python_venv_path"
+    ansible.builtin.set_fact:
+      python_venv: "{{ python_venv if python_venv is defined else '/usr/local/venv-ansible-{{ ansible_version.major }}.{{ ansible_version.minor }}' }}"
+
   - name: "Pip | Install requirements"
     ansible.builtin.pip:
       name:
         - github3.py
-      virtualenv: "{{ python_venv | default('venv-ansible-{{ ansible_version }}') }}"
+      virtualenv: "{{ python_venv }}"
       virtualenv_command: python3 -m venv
     environment:
       PIP_BREAK_SYSTEM_PACKAGES: '1'
