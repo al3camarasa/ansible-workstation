@@ -83,6 +83,8 @@
         repo: kubecolor
         action: latest_release
       register: kubecolor_github_release
+      environment:
+        PYTHONPATH: "{{ python_path | default('/usr/local/venv-ansible-{{ ansible_version.major }}.{{ ansible_version.minor }}/lib/python{{ ansible_python.version.major }}.{{ ansible_python.version.minor }}/site-packages') }}"
       tags:
         - devops
         - kubernetes
@@ -95,6 +97,7 @@
         owner: root
         group: root
         mode: "0755"
+      when: kubecolor_github_release is defined
       tags:
         - devops
         - kubernetes
@@ -131,6 +134,8 @@
         repo: kubectx
         action: latest_release
       register: kubens_github_release
+      environment:
+        PYTHONPATH: "{{ python_path | default('/usr/local/venv-ansible-{{ ansible_version.major }}.{{ ansible_version.minor }}/lib/python{{ ansible_python.version.major }}.{{ ansible_python.version.minor }}/site-packages') }}"
       tags:
         - devops
         - kubernetes

@@ -2,9 +2,9 @@
 - name: Escritorio
   hosts: escritorio
   tags: escritorio
-
+  
   tasks:
-
+  
   - name: Include task list to packages install
     ansible.builtin.include_tasks: "tasks/paquetes_de_escritorio.yml"
 

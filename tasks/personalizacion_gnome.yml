@@ -63,10 +63,22 @@
     force: yes
   become: true
 
-- name: Gnome | Set wallpapers
+- name: Gnome | Set wallpapers on mode light
   command: gsettings set org.gnome.desktop.background picture-uri file://{{ path_wallpapers }}/current.{{ file_ext }}
   become: true
   become_user: "{{devops_user_name}}"
+
+- name: Gnome | Set wallpapers on mode dark
+  command: gsettings set org.gnome.desktop.background picture-uri-dark file://{{ path_wallpapers }}/current.{{ file_ext }}
+  become: true
+  become_user: "{{devops_user_name}}"
+  when: color_scheme is defined and color_scheme == "dark"
+
+- name: Gnome | set dark mode
+  command: gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+  become: true
+  become_user: "{{devops_user_name}}"
+  when: color_scheme is defined and color_scheme == "dark"
 
 - name: Gnome | show trash
   command: gsettings set org.gnome.shell.extensions.ding show-trash true

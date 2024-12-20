@@ -16,6 +16,7 @@
     ansible.builtin.command: tlp setcharge {{ item.start_threshold }} {{ item.stop_threshold }} {{ item.name }}
     loop: "{{ tlp_batteries }}"
     when: exist_battery.stdout|int > 0
+    become: true
     tags: [ battery ]
 
   - name: "Battery | Enable service tlp and start"
@@ -24,4 +25,5 @@
       enabled: true
       state: started
     when: exist_battery.stdout|int > 0
+    become: true
     tags: [ battery ]

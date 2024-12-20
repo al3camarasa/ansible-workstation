@@ -36,22 +36,37 @@ git clone https://github.com/CesarBallardini/ansible-devops-workstation.git
 git clone https://github.com/al3camarasa/ansible-workstation.git
 ```
 
-## 1.4. Instale los requisitos para que funcione Ansible
+## 1.3. Instale los requisitos para que funcione Ansible 2.15
+Si se desea instalar la versión de Ansible 2.15, ingrese [aquí](python_virtual_ansible_2_15.md).
 
+
+## 1.4. Instale los requisitos para que funcione Ansible superior a 2.15
+Agregar la variable con el path del virtualenv de Python en el `.barhrc`
 ```bash
-sudo apt-get install -y python3-pip
-python3 -m pip install --upgrade pip setuptools wheel github3.py
-python3 -m pip install --user ansible-core==2.15
-ansible-galaxy collection install community.general
+PYTHON_VENV_ANSIBLE_PATH=/usr/local/venv-ansible-2.17
+PYTHON_VENV_ANSIBLE=/usr/local/venv-ansible-2.17/bin
 ```
 
-Verificado con Ansible v2.17.2 Python v3.10.12.
+```bash
+bash
+sudo apt-get install -y python3-pip python3.10-venv
+pip install shyaml --break-system-packages
+[ -d "${PYTHON_VENV_ANSIBLE}" ] || sudo python3 -m venv "${PYTHON_VENV_ANSIBLE_PATH}"
+sudo chown -R "${USER}" "${PYTHON_VENV_ANSIBLE_PATH}"
+${PYTHON_VENV_ANSIBLE}/python -m pip install --upgrade pip setuptools wheel github3.py
+${PYTHON_VENV_ANSIBLE}/python -m pip install ansible-core==2.17
+${PYTHON_VENV_ANSIBLE}/ansible --version
+${PYTHON_VENV_ANSIBLE}/ansible-galaxy collection install community.general --force
+${PYTHON_VENV_ANSIBLE}/ansible-galaxy collection install ansible.posix
+```
+
+Verificado con Ansible v2.17.5, Python v3.12.3.
 
 ## 1.5. Instalar con Ansible el resto del software
 
 ```bash
 cd ansible-devops-workstation/
-ansible-galaxy install -r requirements.yml -p roles/
+${PYTHON_VENV_ANSIBLE}/ansible-galaxy install -r requirements.yml -p roles/
 ```
 
 A partir de este momento, el resto de las actividades las realizaremos desde ese directorio.
@@ -100,20 +115,24 @@ Modificar en el archivo ```inventario/host_vars/localhost``` las variables:
 
 - ```devops_user_name```: con nuestro propio nombre de usuario.
 - ```devops_user_uid```: si nuestro uid es dististo de 1000.
-- En caso que se utilice ```proxy```:
-  - organizacion: nombre.
+- ```organizacion```: Nombre-empresa.
+- En caso que se utilice ```proxy```, de lo contrario comentar las siguientes variables:
   - all_proxy: 'http://IP:3128'.
   - http_proxy: 'http://IP:3128'.
   - https_proxy: 'http://IP:3128'.
   - ftp_proxy: 'http://IP:3128'.
   - no_proxy: ''.
   - soap_use_proxy: ''.
-  - ansible_version_deseada: '8.7.0'                                                                 # https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html
+- Entorno de Python y versión de Ansible:
+  - ansible_version_deseada: '10.5.0'.
+  - python_venv: '/usr/local/venv-ansible-2.17'.
+  
+Si estamos utilizando la versión de `Ansible es la 2.15`, setear la variable `ansible_version_deseada: '8.7.0` https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html
 
 Luego ejecutamos Ansible:
 
 ```bash
-time ansible-playbook -vv -i inventario/hosts site.yml --limit localhost --tags proxy,performance,locales,snap,ansible,git,virtualbox,vagrant,docker,microsoft_visualstudio_code,packer,vmware-workstation
+time ${PYTHON_VENV_ANSIBLE}/ansible-playbook -vv -i inventario/hosts site.yml --limit localhost --tags proxy,performance,locales,snap,ansible,git,virtualbox,vagrant,docker,microsoft_visualstudio_code,packer
 ```
 
 Si se da el error: `"msg": "[Errno 2] No existe el archivo o el directorio: b'/usr/local/bin/pip'"` aplicar:
@@ -126,7 +145,7 @@ sudo ln -s /home/[devops_user_name]/.local/bin/pip /usr/local/bin/pip
 ```bash
 cd ..
 cd ansible-workstation/
-ansible-galaxy install -r requirements.yml -p roles/
+${PYTHON_VENV_ANSIBLE}/ansible-galaxy install -r requirements.yml -p roles/
 ```
 
 * Como en el anterior inventario ```inventario/hosts```, agregar la dirección **localhost** al perfil que corresponde al equipo.
@@ -171,6 +190,7 @@ mkdir -p inventario/{group_vars,host_vars}
 - ```devops_shell```: bash
 - ```dock_icon_size```: 34
 - ```mouse_speed```: 0.25735294117647056
+- ```color_scheme```: dark
 - ```office_ntp_servers```: [ ntp1, ntp2, ... ]
 - ```office_git```: nombre del repositorio git.
 - ```firewall_ip: IP_number
@@ -182,12 +202,15 @@ mkdir -p inventario/{group_vars,host_vars}
       ...
       ...
      firewall_deny_tcp_ports: false
-  ```
+- ```### Python virtualenv name 
+     python_venv: "/usr/local/venv-ansible-2.17"
+     python_path: "/usr/local/venv-ansible-2.17/lib/python3.12/site-packages"
+     ```
 
 Luego ejecutamos Ansible:
 
 ```bash
-time ansible-playbook -vv -i inventario/hosts site.yml --extra-vars "@inventario/host_vars/[nombre-host]" --limit localhost
+time ${PYTHON_VENV_ANSIBLE}/ansible-playbook -vv -i inventario/hosts site.yml --extra-vars "@inventario/host_vars/[nombre-host]" --limit localhost
 ```
 
 # 3. Cómo comprobar los playbooks mediante Vagrant y VirtualBox
