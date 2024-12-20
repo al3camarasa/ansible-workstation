@@ -37,9 +37,10 @@ git clone https://github.com/al3camarasa/ansible-workstation.git
 ```
 
 ## 1.3. Instale los requisitos para que funcione Ansible 2.15
+Si se desea instalar la versión de Ansible 2.15, ingrese [aquí](python_virtual_ansible_2_15.md).
+
 
 ## 1.4. Instale los requisitos para que funcione Ansible superior a 2.15
-
 Agregar la variable con el path del virtualenv de Python en el `.barhrc`
 ```bash
 PYTHON_VENV_ANSIBLE_PATH=/usr/local/venv-ansible-2.17
