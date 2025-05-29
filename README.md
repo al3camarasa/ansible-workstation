@@ -43,12 +43,14 @@ Si se desea instalar la versión de Ansible 2.15, ingrese [aquí](python_virtual
 ## 1.4. Instale los requisitos para que funcione Ansible superior a 2.15
 Agregar la variable con el path del virtualenv de Python en el `.barhrc`
 ```bash
-PYTHON_VENV_ANSIBLE_PATH=/usr/local/venv-ansible-2.17
-PYTHON_VENV_ANSIBLE=/usr/local/venv-ansible-2.17/bin
+PYTHON_VENV_ANSIBLE_2_17=/usr/local/venv-ansible-2.17
+alias ansible-playbook='$PYTHON_VENV_ANSIBLE_2_17/bin/ansible-playbook'
+alias ansible='$PYTHON_VENV_ANSIBLE_2_17/bin/ansible'
 ```
 
 ```bash
-bash
+PYTHON_VENV_ANSIBLE_PATH=$PYTHON_VENV_ANSIBLE_2_17
+PYTHON_VENV_ANSIBLE="$PYTHON_VENV_ANSIBLE_2_17/bin"
 sudo apt-get install -y python3-pip python3.10-venv
 pip install shyaml --break-system-packages
 [ -d "${PYTHON_VENV_ANSIBLE}" ] || sudo python3 -m venv "${PYTHON_VENV_ANSIBLE_PATH}"
@@ -111,7 +113,7 @@ ansible_python_interpreter=/usr/bin/python3
 EOF
 ```
 
-Modificar en el archivo ```inventario/host_vars/localhost``` las variables:
+Modificar en el archivo ```inventario/host_vars/localhost``` con las siguientes variables:
 
 - ```devops_user_name```: con nuestro propio nombre de usuario.
 - ```devops_user_uid```: si nuestro uid es dististo de 1000.
@@ -123,11 +125,14 @@ Modificar en el archivo ```inventario/host_vars/localhost``` las variables:
   - ftp_proxy: 'http://IP:3128'.
   - no_proxy: ''.
   - soap_use_proxy: ''.
-- Entorno de Python y versión de Ansible:
+- Pinning en Ansible 2.15:
+  - ansible_version_deseada: '8.7.0'.
+  - #python_venv: '/usr/local/venv-ansible-2.15'.
+- Pinning en Ansible 2.17:
   - ansible_version_deseada: '10.5.0'.
-  - python_venv: '/usr/local/venv-ansible-2.17'.
+  - #python_venv: '/usr/local/venv-ansible-2.17'.
   
-Si estamos utilizando la versión de `Ansible es la 2.15`, setear la variable `ansible_version_deseada: '8.7.0` https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html
+https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html
 
 Luego ejecutamos Ansible:
 
@@ -184,7 +189,7 @@ EOF
 mkdir -p inventario/{group_vars,host_vars}
 ```
 
-* Crear el archivo ```inventario/host_vars/office``` las variables:
+* Crear el archivo ```inventario/host_vars/office``` con las siguientes variables; `python_venv` y `python_path` dependerán de la versión de Ansible instalada.
 
 - ```devops_user_name```: con nuestro propio nombre de usuario.
 - ```devops_shell```: bash
@@ -202,7 +207,10 @@ mkdir -p inventario/{group_vars,host_vars}
       ...
       ...
      firewall_deny_tcp_ports: false
-- ```### Python virtualenv name 
+- ```### Python virtualenv name ANSIBLE_2_15
+     #python_venv: "/home/alejandro/.pyenv/versions/3.11.10/envs/venv-ansible-2.15"
+     #python_path: "/home/alejandro/.pyenv/versions/3.11.10/envs/venv-ansible-2.15/lib/python3.11/site-packages"
+- ```### Python virtualenv name ANSIBLE_2_17
      python_venv: "/usr/local/venv-ansible-2.17"
      python_path: "/usr/local/venv-ansible-2.17/lib/python3.12/site-packages"
      ```
