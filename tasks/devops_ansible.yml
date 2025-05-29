@@ -6,6 +6,12 @@
       - molecule
       - setuptools
       - wheel
+      - pip
+      - ansible-lint
+      - ansible-cmdb
+      - proxmoxer
+      - requests
+      - paramiko
     virtualenv: "{{ python_venv }}"
     virtualenv_command: python3 -m venv
     # virtualenv_python: "{{ python_version }}"
