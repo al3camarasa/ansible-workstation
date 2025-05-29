@@ -117,6 +117,7 @@
   apt:
     name:
     - openjdk-11-jdk
+    - openjdk-19-jdk
     state: present
   become: true
   tags:

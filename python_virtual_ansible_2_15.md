@@ -48,8 +48,9 @@ pyenv install -s 3.11.10 # install preferred version if needed
 
 A continuación, crea un entorno virtual con la versión de Python deseada:
 ```bash
+sudo mkdir /usr/local/venv-ansible-2.15
+sudo chown -R "${USER}" /usr/local/venv-ansible-2.15/
 PYENV_VERSION=3.11.10 python -m venv /usr/local/venv-ansible-2.15 ; source /usr/local/venv-ansible-2.15/bin/activate
-sudo chown -R usuario:usuario /usr/local/venv-ansible-2.15/
 ```
 
 Edita el archivo de configuración del entorno virtual (pyvenv.cfg) para incluir los paquetes del sistema:
@@ -68,7 +69,9 @@ Agrega las siguientes líneas a tu archivo `~/.bashrc` para configurar las varia
 
 ```bash
 # python virtualenv name
-PYTHON_VENV_ANSIBLE_2_15=/usr/local/venv-ansible-2.15/bin
+PYTHON_VENV_ANSIBLE_2_15=/usr/local/venv-ansible-2.15
+alias ansible-playbook='$PYTHON_VENV_ANSIBLE_2_15/bin/ansible-playbook'
+alias ansible='$PYTHON_VENV_ANSIBLE_2_15/bin/ansible'
 ```
 
 Luego, cierra y vuelve a abrir la terminal para que se carguen las variables de entorno.
@@ -89,33 +92,5 @@ Edita el archivo `/etc/environment` y añade la siguiente línea para incluir el
 ```yml
 PATH="....:/usr/local/venv-ansible-2.15/bin"
 ```
-
-## 7. Ejecutar los playbooks de Ansible
-Para ejecutar un playbook en tu estación de trabajo `ansible_dev_workstation`, configura la variable `ansible_version_deseada` en el archivo de inventario:
-```yml
-ansible_version_deseada: '8.7.0'
-```
-Luego, ejecuta el playbook:
-```bash
-time "${PYTHON_VENV_ANSIBLE_2_15}"/ansible-playbook -i inventario  site.yml --limit localhost --tags proxy,performance,locales,snap,ansible,git,virtualbox,vagrant,docker,microsoft_visualstudio_code,packer
-```
-
-En `hosts_vars/office`, configura las rutas del entorno virtual:
-```yml
-# Python virtualenv name                                                                                      
-python_venv: "/home/alejandro/.pyenv/versions/3.11.10/envs/venv-ansible-2.15"
-python_path: "/home/alejandro/.pyenv/versions/3.11.10/envs/venv-ansible-2.15/lib/python3.11/site-packages"
-```
-
-Ejecuta el playbook con los parámetros de configuración específicos:
-```bash
-time  ${PYTHON_VENV_ANSIBLE_2_15}/ansible-playbook -vv -i inventario/hosts site.yml --extra-vars "@inventario/host_vars/office" --limit localhost
-```
-
-## 8. Volver a la versión de Python del sistema
-```bash
-pyenv local  system
-```
-
 ¡Listo! Ahora tienes `Ansible 2.15` corriendo con `Python 3.11` en tu entorno virtual gestionado por `pyenv`.
 
