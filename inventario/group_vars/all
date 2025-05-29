@@ -1,8 +1,8 @@
 # VeraCrypt
-veracrypt_version: 1.26.14
+veracrypt_version: 1.26.20
 veracryp_sha256_expected:
-   "22.04": "26d80ce138e3293390ac031d967d56c70ee0318a5876c350721c2c8bb5c7f215"
-   "24.04": "6252213d62386107867f4af398c05b1dc0eeec1c92d00e2410eb94baf0b16056" 
+   "22.04": "d6ab577011d1ee942b49db2e2f2cf19c7c65180b9e0604c2a6d56db071d59227"
+   "24.04": "d069536d9f6db5ce1408ed4551960f0f6e990b7f1e51ab00189e0e07f32362e4" 
 
 # Rclone
 rclone_arch: amd64
