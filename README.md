@@ -125,15 +125,7 @@ Modificar en el archivo ```inventario/host_vars/localhost``` con las siguientes 
   - ftp_proxy: 'http://IP:3128'.
   - no_proxy: ''.
   - soap_use_proxy: ''.
-- Pinning en Ansible 2.15:
-  - ansible_version_deseada: '8.7.0'.
-  - #python_venv: '/usr/local/venv-ansible-2.15'.
-- Pinning en Ansible 2.17:
-  - ansible_version_deseada: '10.5.0'.
-  - #python_venv: '/usr/local/venv-ansible-2.17'.
   
-https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html
-
 Luego ejecutamos Ansible:
 
 ```bash
