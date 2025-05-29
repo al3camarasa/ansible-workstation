@@ -137,7 +137,7 @@ https://docs.ansible.com/ansible/latest/reference_appendices/release_and_mainten
 Luego ejecutamos Ansible:
 
 ```bash
-time ${PYTHON_VENV_ANSIBLE}/ansible-playbook -vv -i inventario/hosts site.yml --limit localhost --tags proxy,performance,locales,snap,ansible,git,virtualbox,vagrant,docker,microsoft_visualstudio_code,packer
+time ${PYTHON_VENV_ANSIBLE}/ansible-playbook -vv -i inventario/hosts site.yml --limit localhost --tags proxy,performance,locales,snap,git,virtualbox,vagrant,docker,microsoft_visualstudio_code,packer
 ```
 
 Si se da el error: `"msg": "[Errno 2] No existe el archivo o el directorio: b'/usr/local/bin/pip'"` aplicar:
