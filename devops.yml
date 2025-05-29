@@ -47,6 +47,26 @@
         - devops
         - ansible
 
+    - name: devops | Check if there is hardware virtualization required for VMware Workstation
+      command: egrep "svm|vmx" /proc/cpuinfo
+      ignore_errors: True
+      changed_when: False
+      become: True
+      register: hay_virtualizacion_register
+      tags: 
+        - devops
+        - vmware-workstation
+        - virtualbox
+
+    - name: devops | install vmware-workstation
+      include_tasks: tasks/instala_vmware-workstation.yml
+      vars:
+        workstation_tempdir: /var/cache/workstation-downloads
+      when: hay_virtualizacion_register is succeeded
+      tags: 
+        - devops
+        - vmware-workstation
+
     ##FIXME: use https://github.com/sbreitf1/kubeselect
     - name: "devops | Kubeselect | Clone repo"
       ansible.builtin.git:

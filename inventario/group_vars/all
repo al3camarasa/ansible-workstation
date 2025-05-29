@@ -46,6 +46,9 @@ path_wallpapers: "/home/{{devops_user_name}}/Imágenes/wallpapers"
 file_ext: "jpg"
 wallpapers_url: "https://unsplash.com/photos/n--CMLApjfI/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzI2MjQzMjAxfA&force=true"
 
+# instala_vmware-workstation.yml
+workstation_download_url: https://drive.usercontent.google.com/download?id=1BLDcQcJkmRvPx4yJKFgoXOl_v1jmrADv&confirm=xxx  #VMware-Workstation-Full-17.6.1-24319023.x86_64.bundle
+
 # TLP
 # You can configure start and stop thresholds per battery.
 # tlp_batteries:
