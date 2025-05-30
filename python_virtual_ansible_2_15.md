@@ -71,7 +71,7 @@ Agrega las siguientes líneas a tu archivo `~/.bashrc` para configurar las varia
 # python virtualenv name
 PYTHON_VENV_ANSIBLE_2_15=/usr/local/venv-ansible-2.15
 alias ansible-playbook='$PYTHON_VENV_ANSIBLE_2_15/bin/ansible-playbook'
-alias ansible-galaxy='$PYTHON_VENV_ANSIBLE_2_15/bin/ansible-playbook'
+alias ansible-galaxy='$PYTHON_VENV_ANSIBLE_2_15/bin/ansible-galaxy'
 alias ansible='$PYTHON_VENV_ANSIBLE_2_15/bin/ansible'
 ```
 
