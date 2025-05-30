@@ -45,6 +45,7 @@ Agregar la variable con el path del virtualenv de Python en el `.barhrc`
 ```bash
 PYTHON_VENV_ANSIBLE_2_17=/usr/local/venv-ansible-2.17
 alias ansible-playbook='$PYTHON_VENV_ANSIBLE_2_17/bin/ansible-playbook'
+alias ansible-galaxy='$PYTHON_VENV_ANSIBLE_2_17/bin/ansible-playbook'
 alias ansible='$PYTHON_VENV_ANSIBLE_2_17/bin/ansible'
 ```
 
