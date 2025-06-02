@@ -53,10 +53,9 @@ alias ansible='$PYTHON_VENV_ANSIBLE_2_17/bin/ansible'
 PYTHON_VENV_ANSIBLE_PATH=$PYTHON_VENV_ANSIBLE_2_17
 PYTHON_VENV_ANSIBLE="$PYTHON_VENV_ANSIBLE_2_17/bin"
 sudo apt-get install -y python3-pip python3.10-venv
-pip install shyaml --break-system-packages
 [ -d "${PYTHON_VENV_ANSIBLE}" ] || sudo python3 -m venv "${PYTHON_VENV_ANSIBLE_PATH}"
 sudo chown -R "${USER}" "${PYTHON_VENV_ANSIBLE_PATH}"
-${PYTHON_VENV_ANSIBLE}/python -m pip install --upgrade pip setuptools wheel github3.py
+${PYTHON_VENV_ANSIBLE}/python -m pip install --upgrade pip setuptools wheel github3.py shyaml
 ${PYTHON_VENV_ANSIBLE}/python -m pip install ansible-core==2.17
 ${PYTHON_VENV_ANSIBLE}/ansible --version
 ${PYTHON_VENV_ANSIBLE}/ansible-galaxy collection install community.general --force

@@ -82,10 +82,10 @@ Luego, cierra y vuelve a abrir la terminal para que se carguen las variables de 
 Con el entorno virtual activado, instala y actualiza los componentes necesarios:
 
 ```bash
-"${PYTHON_VENV_ANSIBLE_2_15}"/python -m pip install --upgrade pip setuptools wheel github3.py
-"${PYTHON_VENV_ANSIBLE_2_15}"/python -m pip install ansible-core==2.15.12
-${PYTHON_VENV_ANSIBLE_2_15}/ansible-galaxy collection install community.general --force
-${PYTHON_VENV_ANSIBLE_2_15}/ansible --version
+"${PYTHON_VENV_ANSIBLE_2_15}"/bin/python -m pip install --upgrade pip setuptools wheel github3.py shyaml
+"${PYTHON_VENV_ANSIBLE_2_15}"/bin/python -m pip install ansible-core==2.15.12
+ansible-galaxy collection install community.general --force
+ansible --version
 ```
 
 ## 6. Añadir el path al entorno global
