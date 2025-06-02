@@ -88,10 +88,5 @@ ansible-galaxy collection install community.general --force
 ansible --version
 ```
 
-## 6. Añadir el path al entorno global
-Edita el archivo `/etc/environment` y añade la siguiente línea para incluir el path del entorno virtual de Ansible que se utilizará por defecto:
-```yml
-PATH="....:/usr/local/venv-ansible-2.15/bin"
-```
 ¡Listo! Ahora tienes `Ansible 2.15` corriendo con `Python 3.11` en tu entorno virtual gestionado por `pyenv`.
 
