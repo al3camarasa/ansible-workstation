@@ -119,7 +119,9 @@
     name:
     - openjdk-11-jdk
     - openjdk-19-jdk
+    - openjdk-21-jdk
     state: present
+  ignore_errors: true
   become: true
   tags:
   - java
