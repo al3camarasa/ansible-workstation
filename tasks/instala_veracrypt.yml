@@ -30,3 +30,4 @@
   ansible.builtin.apt:
     deb: /tmp/veracrypt.deb
   when: ansible_distribution == "Ubuntu" and sha256_calculated.stdout.split()[0] == veracryp_sha256_current
+  become: true
