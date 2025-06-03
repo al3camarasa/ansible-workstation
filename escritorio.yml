@@ -18,6 +18,7 @@
   - name: Include role rclone
     ansible.builtin.include_role:
       name: ansible-role-protonvpn
+    when: protonvpn_user is defined
     tags:
       - escritorio
       - protonvpn
