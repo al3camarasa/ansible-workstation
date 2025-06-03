@@ -49,20 +49,21 @@ alias ansible-galaxy='$PYTHON_VENV_ANSIBLE_2_17/bin/ansible-galaxy'
 alias ansible='$PYTHON_VENV_ANSIBLE_2_17/bin/ansible'
 ```
 
+Luego, cierra y vuelve a abrir la terminal para que se carguen las variables de entorno.
+
 ```bash
 PYTHON_VENV_ANSIBLE_PATH=$PYTHON_VENV_ANSIBLE_2_17
 PYTHON_VENV_ANSIBLE="$PYTHON_VENV_ANSIBLE_2_17/bin"
-sudo apt-get install -y python3-pip python3.10-venv
+sudo apt-get install -y python3-pip
+sudo mkdir $PYTHON_VENV_ANSIBLE_PATH
 [ -d "${PYTHON_VENV_ANSIBLE}" ] || sudo python3 -m venv "${PYTHON_VENV_ANSIBLE_PATH}"
 sudo chown -R "${USER}" "${PYTHON_VENV_ANSIBLE_PATH}"
 ${PYTHON_VENV_ANSIBLE}/python -m pip install --upgrade pip setuptools wheel github3.py shyaml
 ${PYTHON_VENV_ANSIBLE}/python -m pip install ansible-core==2.17
-${PYTHON_VENV_ANSIBLE}/ansible --version
 ${PYTHON_VENV_ANSIBLE}/ansible-galaxy collection install community.general --force
 ${PYTHON_VENV_ANSIBLE}/ansible-galaxy collection install ansible.posix
+${PYTHON_VENV_ANSIBLE}/ansible --version
 ```
-
-Verificado con Ansible v2.17.5, Python v3.12.3.
 
 ## 1.5. Instalar con Ansible el resto del software
 
@@ -200,8 +201,8 @@ mkdir -p inventario/{group_vars,host_vars}
       ...
      firewall_deny_tcp_ports: false
 - ```### Python virtualenv name ANSIBLE_2_15
-     #python_venv: "/home/alejandro/.pyenv/versions/3.11.10/envs/venv-ansible-2.15"
-     #python_path: "/home/alejandro/.pyenv/versions/3.11.10/envs/venv-ansible-2.15/lib/python3.11/site-packages"
+     #python_venv: "/usr/local/venv-ansible-2.15"
+     #python_path: "/usr/local/venv-ansible-2.15/lib/python3.11/site-packages"
 - ```### Python virtualenv name ANSIBLE_2_17
      python_venv: "/usr/local/venv-ansible-2.17"
      python_path: "/usr/local/venv-ansible-2.17/lib/python3.12/site-packages"

@@ -84,8 +84,10 @@ Con el entorno virtual activado, instala y actualiza los componentes necesarios:
 ```bash
 "${PYTHON_VENV_ANSIBLE_2_15}"/bin/python -m pip install --upgrade pip setuptools wheel github3.py shyaml
 "${PYTHON_VENV_ANSIBLE_2_15}"/bin/python -m pip install ansible-core==2.15.12
-ansible-galaxy collection install community.general --force
+$PYTHON_VENV_ANSIBLE_2_15/bin/ansible-galaxy collection install community.general --force
+$PYTHON_VENV_ANSIBLE_2_15/bin/ansible-galaxy collection install ansible.posix
 ansible --version
+PYTHON_VENV_ANSIBLE="$PYTHON_VENV_ANSIBLE_2_15/bin"
 ```
 
 ¡Listo! Ahora tienes `Ansible 2.15` corriendo con `Python 3.11` en tu entorno virtual gestionado por `pyenv`.
