@@ -43,26 +43,29 @@ Si se desea instalar la versión de Ansible 2.15, ingrese [aquí](python_virtual
 ## 1.4. Instale los requisitos para que funcione Ansible superior a 2.15
 Agregar la variable con el path del virtualenv de Python en el `.barhrc`
 ```bash
-PYTHON_VENV_ANSIBLE_2_17=/usr/local/venv-ansible-2.17
-alias ansible-playbook='$PYTHON_VENV_ANSIBLE_2_17/bin/ansible-playbook'
-alias ansible-galaxy='$PYTHON_VENV_ANSIBLE_2_17/bin/ansible-galaxy'
-alias ansible='$PYTHON_VENV_ANSIBLE_2_17/bin/ansible'
+PYTHON_VENV_ANSIBLE_2_18=/usr/local/venv-ansible-2.18
 ```
 
 Luego, cierra y vuelve a abrir la terminal para que se carguen las variables de entorno.
 
 ```bash
-PYTHON_VENV_ANSIBLE_PATH=$PYTHON_VENV_ANSIBLE_2_17
-PYTHON_VENV_ANSIBLE="$PYTHON_VENV_ANSIBLE_2_17/bin"
-sudo apt-get install -y python3-pip
+PYTHON_VENV_ANSIBLE_PATH=$PYTHON_VENV_ANSIBLE_2_18
+PYTHON_VENV_ANSIBLE="$PYTHON_VENV_ANSIBLE_2_18/bin"
+sudo apt-get install -y python3-pip python3.12-venv
 sudo mkdir $PYTHON_VENV_ANSIBLE_PATH
 [ -d "${PYTHON_VENV_ANSIBLE}" ] || sudo python3 -m venv "${PYTHON_VENV_ANSIBLE_PATH}"
 sudo chown -R "${USER}" "${PYTHON_VENV_ANSIBLE_PATH}"
 ${PYTHON_VENV_ANSIBLE}/python -m pip install --upgrade pip setuptools wheel github3.py shyaml
-${PYTHON_VENV_ANSIBLE}/python -m pip install ansible-core==2.17
+${PYTHON_VENV_ANSIBLE}/python -m pip install ansible-core==2.18
 ${PYTHON_VENV_ANSIBLE}/ansible-galaxy collection install community.general --force
 ${PYTHON_VENV_ANSIBLE}/ansible-galaxy collection install ansible.posix
 ${PYTHON_VENV_ANSIBLE}/ansible --version
+```
+
+Añadir el path al entorno global
+Edita el archivo `/etc/environment` y añade la siguiente línea para incluir el path del entorno virtual de Ansible que se utilizará por defecto:
+```yml
+PATH="....:/usr/local/venv-ansible-2.18/bin"
 ```
 
 ## 1.5. Instalar con Ansible el resto del software
@@ -203,9 +206,9 @@ mkdir -p inventario/{group_vars,host_vars}
 - ```### Python virtualenv name ANSIBLE_2_15
      #python_venv: "/usr/local/venv-ansible-2.15"
      #python_path: "/usr/local/venv-ansible-2.15/lib/python3.11/site-packages"
-- ```### Python virtualenv name ANSIBLE_2_17
-     python_venv: "/usr/local/venv-ansible-2.17"
-     python_path: "/usr/local/venv-ansible-2.17/lib/python3.12/site-packages"
+- ```### Python virtualenv name ANSIBLE_2_18
+     python_venv: "/usr/local/venv-ansible-2.18"
+     python_path: "/usr/local/venv-ansible-2.18/lib/python3.12/site-packages"
      ```
 
 Luego ejecutamos Ansible:

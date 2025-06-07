@@ -70,9 +70,6 @@ Agrega las siguientes líneas a tu archivo `~/.bashrc` para configurar las varia
 ```bash
 # python virtualenv name
 PYTHON_VENV_ANSIBLE_2_15=/usr/local/venv-ansible-2.15
-alias ansible-playbook='$PYTHON_VENV_ANSIBLE_2_15/bin/ansible-playbook'
-alias ansible-galaxy='$PYTHON_VENV_ANSIBLE_2_15/bin/ansible-galaxy'
-alias ansible='$PYTHON_VENV_ANSIBLE_2_15/bin/ansible'
 ```
 
 Luego, cierra y vuelve a abrir la terminal para que se carguen las variables de entorno.
@@ -88,6 +85,12 @@ $PYTHON_VENV_ANSIBLE_2_15/bin/ansible-galaxy collection install community.genera
 $PYTHON_VENV_ANSIBLE_2_15/bin/ansible-galaxy collection install ansible.posix
 ansible --version
 PYTHON_VENV_ANSIBLE="$PYTHON_VENV_ANSIBLE_2_15/bin"
+```
+
+## 6. Añadir el path al entorno global
+Edita el archivo `/etc/environment` y añade la siguiente línea para incluir el path del entorno virtual de Ansible que se utilizará por defecto:
+```yml
+PATH="....:/usr/local/venv-ansible-2.15/bin"
 ```
 
 ¡Listo! Ahora tienes `Ansible 2.15` corriendo con `Python 3.11` en tu entorno virtual gestionado por `pyenv`.
