@@ -1,0 +1,23 @@
+---
+- name: "devops | Download VS Code Insiders .deb"
+  ansible.builtin.get_url:
+    url: "https://update.code.visualstudio.com/latest/linux-deb-x64/insider"
+    dest: "/tmp/code-insiders_latest_amd64.deb"
+  tags:
+    - devops
+    - vscode-insiders
+
+- name: "devops | Install VS Code Insiders .deb"
+  ansible.builtin.apt:
+    deb: "/tmp/code-insiders_latest_amd64.deb"
+  tags:
+    - devops
+    - vscode-insiders
+
+- name: "devops | Remove VS Code Insiders .deb"
+  ansible.builtin.file:
+    path: "/tmp/code-insiders_latest_amd64.deb"
+    state: absent
+  tags:
+    - devops
+    - vscode-insiders

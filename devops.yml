@@ -122,7 +122,6 @@
         - devops
         - kubernetes
         - kubecolor
-      when: kubecolor_github_release is defined
 
     - name: "devops | Kubecolor | Extract some files"
       ansible.builtin.unarchive:
@@ -191,6 +190,13 @@
         - devops
         - kubernetes
         - k9s
+
+    - name: "devops | Install Visual Studio Code Insiders"
+      ansible.builtin.import_tasks:
+        file: tasks/install_vscode_insiders.yml
+      tags:
+        - devops
+        - vscode-insiders
 
     # - name: "devops | Install Lens"
     #   ansible.builtin.include_tasks:
