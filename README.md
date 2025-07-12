@@ -25,7 +25,7 @@ modificando la línea:
 
 ## 1.3 Verificar la existencia del archivo de Swap
 ```bash
-ls /swapfile
+ls /swap.img
 ```
 En el caso de que no exista, [crearlo](https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-20-04).
 
