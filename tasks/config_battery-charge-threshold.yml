@@ -1,0 +1,36 @@
+
+- name: "Battery | Check if exist battery"
+  shell: LANG=C upower -i /org/freedesktop/UPower/devices/battery_BATT | grep -E percentage | awk {'print $2'} | sed 's/[^0-9]*//g'
+  register: exist_battery
+  become: true
+  tags: [ battery ]
+
+- name: Create battery-charge-threshold.service
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/battery-charge-threshold.service
+    content: |
+      [Unit]
+      Description=Limit battery charge
+      After=multi-user.target
+
+      [Service]
+      Type=oneshot
+      ExecStart=/bin/bash -c 'echo {{ battery_charge_threshold }} > /sys/class/power_supply/BATT/charge_control_end_threshold'
+
+      [Install]
+      WantedBy=multi-user.target
+  become: true
+  when: exist_battery.stdout|int > 0
+  tags: [ battery ]
+
+- name: Enable service battery-charge-threshold.service
+  ansible.builtin.systemd_service:
+    name: battery-charge-threshold.service
+    state: started
+    enabled: true
+    daemon_reload: true
+    masked: no
+  become: true
+  when: exist_battery.stdout|int > 0
+  tags: [ battery ]
+

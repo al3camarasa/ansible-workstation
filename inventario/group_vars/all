@@ -59,6 +59,9 @@ workstation_download_url: https://drive.usercontent.google.com/download?id=1BLDc
 #     start_threshold: 70
 #     stop_threshold: 90
 
+# Battery charge threshold
+battery_charge_threshold: 82
+
 # ansible-role-protonvpn
 # protonvpn_user: "{{ ansible_user_id }}"
 # protonvpn_configure_user: true
@@ -73,3 +76,5 @@ workstation_download_url: https://drive.usercontent.google.com/download?id=1BLDc
 # protonvpn_alt_routing: true
 # protonvpn_moderate_nat: false
 # protonvpn_non_standard_ports: false
+
+
