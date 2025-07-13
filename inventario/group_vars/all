@@ -49,19 +49,6 @@ wallpapers_url: "https://unsplash.com/photos/n--CMLApjfI/download?ixid=M3wxMjA3f
 # instala_vmware-workstation.yml
 workstation_download_url: https://drive.usercontent.google.com/download?id=1BLDcQcJkmRvPx4yJKFgoXOl_v1jmrADv&confirm=xxx  #VMware-Workstation-Full-17.6.1-24319023.x86_64.bundle
 
-# TLP
-# You can configure start and stop thresholds per battery.
-# tlp_batteries:
-#   - name: BAT0
-#     start_threshold: 70
-#     stop_threshold: 90
-#   - name: BAT1
-#     start_threshold: 70
-#     stop_threshold: 90
-
-# Battery charge threshold
-battery_charge_threshold: 82
-
 # ansible-role-protonvpn
 # protonvpn_user: "{{ ansible_user_id }}"
 # protonvpn_configure_user: true

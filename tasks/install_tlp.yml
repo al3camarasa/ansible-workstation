@@ -1,3 +1,10 @@
+  - name: "Battery | Install tlp"
+    ansible.builtin.apt:
+      name: tlp
+      state: present
+    become: true
+    tags: [ battery ]
+
   - name: "Battery | Check if exist battery"
     shell: LANG=C upower -i /org/freedesktop/UPower/devices/battery_BATT | grep -E percentage | awk {'print $2'} | sed 's/[^0-9]*//g'
     register: exist_battery
@@ -25,5 +32,27 @@
       enabled: true
       state: started
     when: exist_battery.stdout|int > 0
+    become: true
+    tags: [ battery ]
+
+  - name: "Battery | Set start charge threshold in tlp.conf"
+    ansible.builtin.lineinfile:
+      path: /etc/tlp.conf
+      regexp: '^START_CHARGE_THRESH_BAT0='
+      line: "START_CHARGE_THRESH_BAT0={{ item.start_threshold }}"
+      create: yes
+      backup: yes
+    loop: "{{ tlp_batteries }}"
+    become: true
+    tags: [ battery ]
+
+  - name: "Battery | Set charge threshold in tlp.conf"
+    ansible.builtin.lineinfile:
+      path: /etc/tlp.conf
+      regexp: '^STOP_CHARGE_THRESH_BAT0='
+      line: "STOP_CHARGE_THRESH_BAT0={{ item.stop_threshold }}"
+      create: yes
+      backup: yes
+    loop: "{{ tlp_batteries }}"
     become: true
     tags: [ battery ]
