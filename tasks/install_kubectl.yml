@@ -29,21 +29,15 @@
   ansible.builtin.shell: sha256sum /opt/kubectl-{{ version.content }}/kubectl | cut -d " " -f1
   register: file_shasum
 
-- ansible.builtin.set_fact:
-    shasum1={{ file_shasum.stdout }}
-
-# - ansible.builtin.debug: var=shasum1
-#   run_once: true
+- name: "devops | Print return shasum"
+  ansible.builtin.debug:
+    var: file_shasum.stdout
+    verbosity: 2
+  run_once: true
 
 - name: "devops | kubectl | Get sha256sum value from file"
   command: cat /opt/kubectl-{{ version.content }}/kubectl.sha256
   register: downloaded_shasum
-
-- ansible.builtin.set_fact:
-    shasum2={{ downloaded_shasum.stdout }}
-
-# - ansible.builtin.debug: var=shasum2
-#   run_once: true
 
 - name: "devops | kubectl | Assert that the kube.builtin.filectl binary is OK"
   ansible.builtin.assert:
@@ -60,12 +54,15 @@
 
 - name: "devops | kubectl | Ensure the file does not exist"
   ansible.builtin.file:
-    path: "/usr/bin/kubectl"
+    path: "{{ item}}"
     state: absent
+  loop:
+    - /usr/local/bin/kubectl
+    - /usr/bin/kubectl
 
 - name: "devops | kubectl | Create a symlink to kubectl"
   ansible.builtin.file:
     src: "/opt/kubectl-{{ version.content }}/kubectl"
-    dest: "/usr/bin/kubectl"
+    dest: "/usr/local/bin/kubectl"
     state: link
 
