@@ -15,6 +15,7 @@
     - jq
     - ldap-utils
     - net-tools
+    - nmap
     - nocache
     - nscd
     - ntfs-3g
@@ -57,6 +58,7 @@
     - aspell-es
     - bleachbit
     - calibre
+    - cpupower-gui
     - dconf-editor
     - filezilla
     - gufw

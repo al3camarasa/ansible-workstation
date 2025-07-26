@@ -24,6 +24,11 @@
     ansible.builtin.include_tasks: "tasks/instala_rclone.yml"
     tags: [rclone]
 
+  - name: "Battery | config cpupower on performance"
+    ansible.builtin.include_tasks: "tasks/config_cpupower-performance.yml"
+    when: battery_charge_threshold is defined
+    tags: [battery]
+
   - name: "Install tlp"
     ansible.builtin.include_tasks: "tasks/install_tlp.yml"
     when: tlp_batteries is defined

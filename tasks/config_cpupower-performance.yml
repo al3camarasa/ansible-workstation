@@ -1,0 +1,36 @@
+
+- name: "Battery | Check if exist battery"
+  shell: LANG=C upower -i /org/freedesktop/UPower/devices/battery_BATT | grep -E percentage | awk {'print $2'} | sed 's/[^0-9]*//g'
+  register: exist_battery
+  become: true
+  tags: [ battery ]
+
+- name: Create cpupower-performance.service
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/cpupower-performance.service
+    content: |
+      [Unit]
+      Description=Establecer modo performance en el arranque
+      After=network.target
+
+      [Service]
+      Type=oneshot
+      ExecStart=/usr/bin/cpupower frequency-set -g performance
+
+      [Install]
+      WantedBy=multi-user.target
+  become: true
+  when: exist_battery.stdout|int > 0
+  tags: [ battery ]
+
+- name: Enable cpupower-performance.service
+  ansible.builtin.systemd_service:
+    name: cpupower-performance.service
+    state: started
+    enabled: true
+    daemon_reload: true
+    masked: no
+  become: true
+  when: exist_battery.stdout|int > 0
+  tags: [ battery ]
+
