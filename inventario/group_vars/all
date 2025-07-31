@@ -13,7 +13,8 @@ list_of_remove_apt:
 - indicator-cpufreq
 
 # Flatpak
-# list_of_flatpak:
+list_of_flatpak:
+- org.telegram.desktop
 
 # Snap
 list_of_snap_escritorio:
@@ -22,7 +23,7 @@ list_of_snap_escritorio:
 - keepassxc
 - pinta
 - spotify
-- telegram-desktop
+# - telegram-desktop
 - todoist
 - vlc
 - zoom-client
