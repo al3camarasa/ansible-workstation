@@ -48,7 +48,7 @@ file_ext: "jpg"
 wallpapers_url: "https://unsplash.com/photos/n--CMLApjfI/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzI2MjQzMjAxfA&force=true"
 
 # instala_vmware-workstation.yml
-workstation_download_url: https://drive.usercontent.google.com/download?id=1BLDcQcJkmRvPx4yJKFgoXOl_v1jmrADv&confirm=xxx  #VMware-Workstation-Full-17.6.1-24319023.x86_64.bundle
+workstation_download_url: https://drive.usercontent.google.com/download?id=1URyu_Fvf8_z_Ms6lm8LCP7whG68iBlEM&confirm=xxx  #VMware-Workstation-Full-17.6.4-24832109.x86_64.bundle
 
 # ansible-role-protonvpn
 # protonvpn_user: "{{ ansible_user_id }}"
