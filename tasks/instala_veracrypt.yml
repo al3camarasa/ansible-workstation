@@ -19,6 +19,11 @@
   set_fact:
     veracryp_sha256_current: "{{ veracryp_sha256_expected[ansible_distribution_version] }}"
 
+- name: Veracrypt | Display all variables
+  ansible.builtin.debug:
+    var: veracryp_sha256_current, sha256_calculated.stdout.split()[0]
+    verbosity: 4
+
 - name: Veracrypt | Calculate the SHA256 checksum of the downloaded file
   assert:
     that:
