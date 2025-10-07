@@ -74,16 +74,15 @@ PYTHON_VENV_ANSIBLE_2_15=/usr/local/venv-ansible-2.15
 
 Luego, cierra y vuelve a abrir la terminal para que se carguen las variables de entorno.
 
-
 ## 5. Instalar componentes de Ansible
 Con el entorno virtual activado, instala y actualiza los componentes necesarios:
 
 ```bash
+bash
 "${PYTHON_VENV_ANSIBLE_2_15}"/bin/python -m pip install --upgrade pip setuptools wheel github3.py shyaml
 "${PYTHON_VENV_ANSIBLE_2_15}"/bin/python -m pip install ansible-core==2.15.12
 $PYTHON_VENV_ANSIBLE_2_15/bin/ansible-galaxy collection install community.general --force
 $PYTHON_VENV_ANSIBLE_2_15/bin/ansible-galaxy collection install ansible.posix
-ansible --version
 PYTHON_VENV_ANSIBLE="$PYTHON_VENV_ANSIBLE_2_15/bin"
 ```
 
@@ -91,6 +90,10 @@ PYTHON_VENV_ANSIBLE="$PYTHON_VENV_ANSIBLE_2_15/bin"
 Edita el archivo `/etc/environment` y añade la siguiente línea para incluir el path del entorno virtual de Ansible que se utilizará por defecto:
 ```yml
 PATH="....:/usr/local/venv-ansible-2.15/bin"
+```
+```bash
+source /etc/environment
+ansible --version
 ```
 
 ¡Listo! Ahora tienes `Ansible 2.15` corriendo con `Python 3.11` en tu entorno virtual gestionado por `pyenv`.
