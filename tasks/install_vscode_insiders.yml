@@ -3,6 +3,11 @@
   ansible.builtin.get_url:
     url: "https://update.code.visualstudio.com/latest/linux-deb-x64/insider"
     dest: "/tmp/code-insiders_latest_amd64.deb"
+    timeout: 60
+  register: download_result
+  until: download_result is succeeded
+  retries: 3
+  delay: 5
   tags:
     - devops
     - vscode-insiders
