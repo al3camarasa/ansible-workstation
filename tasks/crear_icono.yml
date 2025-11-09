@@ -8,6 +8,7 @@
     group: root
     mode: '0744'
   become: true
+  tags: always
 
 
 
