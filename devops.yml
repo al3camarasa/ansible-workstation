@@ -62,7 +62,7 @@
       include_tasks: tasks/instala_vmware-workstation.yml
       vars:
         workstation_tempdir: /var/cache/workstation-downloads
-      when: hay_virtualizacion_register is succeeded
+      when: hay_virtualizacion_register.rc == 0
       tags: 
         - devops
         - vmware-workstation
