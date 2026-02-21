@@ -13,6 +13,7 @@
     - gnupg2
     - graphicsmagick-imagemagick-compat
     - jq
+    - keychain
     - ldap-utils
     - net-tools
     - nmap
