@@ -11,6 +11,7 @@
     - g++
     - gcc
     - gnupg2
+    - keepassxc
     - graphicsmagick-imagemagick-compat
     - jq
     - keychain
