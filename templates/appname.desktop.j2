@@ -7,4 +7,4 @@ Exec={{ app.path }}{% if app.disable_sandbox | default(false) %} --no-sandbox{% 
 
 Name={{ app.comment }}
 Comment={{ app.comment }}
-Icon={{ app.icon_path }}
+Icon={{ app.icon_path | default('') }}

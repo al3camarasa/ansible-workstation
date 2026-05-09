@@ -122,7 +122,6 @@
   apt:
     name:
     - openjdk-11-jdk
-    - openjdk-19-jdk
     - openjdk-21-jdk
     state: present
   ignore_errors: true
@@ -242,6 +241,10 @@
     url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
     dest: /usr/share/keyrings/brave-browser-archive-keyring.gpg
     mode: '0644'
+  register: brave_gpg_download
+  until: brave_gpg_download is succeeded
+  retries: 3
+  delay: 10
   become: true
   tags:
   - escritorio

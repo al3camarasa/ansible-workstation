@@ -1,0 +1,117 @@
+---
+# Installs Touchégg + Touché for macOS-like multitouch gestures on GNOME.
+# Touchégg handles gesture recognition (system service).
+# Touché provides a GUI to configure gestures visually.
+
+# --- Touchpad: macOS-like basic behavior via gsettings ---
+
+- name: Touchpad | Enable natural scrolling (content follows finger, like macOS)
+  command: gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll true
+  become: true
+  become_user: "{{ devops_user_name }}"
+  tags: touchegg
+
+- name: Touchpad | Enable tap to click
+  command: gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
+  become: true
+  become_user: "{{ devops_user_name }}"
+  tags: touchegg
+
+- name: Touchpad | Enable two-finger scrolling
+  command: gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
+  become: true
+  become_user: "{{ devops_user_name }}"
+  tags: touchegg
+
+# --- Touchégg: multitouch gesture daemon ---
+
+- name: Touchegg | Download repository signing key
+  ansible.builtin.get_url:
+    url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x7EA12677D47B593CE22727D4C0FCE32AF6B96252
+    dest: /tmp/touchegg-archive-key.asc
+    mode: '0644'
+  become: true
+  tags: touchegg
+
+- name: Touchegg | Verify repository signing key fingerprint
+  # Expected key: José Expósito <josee.exposito@gmail.com>
+  # Fingerprint:  7EA1 2677 D47B 593C E227  27D4 C0FC E32A F6B9 6252
+  ansible.builtin.shell: |
+    gpg --no-default-keyring \
+        --keyring gnupg-ring:/tmp/touchegg-verify.gpg \
+        --import /tmp/touchegg-archive-key.asc 2>&1
+    gpg --no-default-keyring \
+        --keyring gnupg-ring:/tmp/touchegg-verify.gpg \
+        --fingerprint 7EA12677D47B593CE22727D4C0FCE32AF6B96252 2>&1 | \
+        grep -qi "7EA1 2677 D47B 593C E227"
+    rm -f /tmp/touchegg-verify.gpg
+  changed_when: false
+  become: true
+  tags: touchegg
+
+- name: Touchegg | Install repository signing key
+  ansible.builtin.shell: |
+    gpg --dearmor --yes --output /usr/share/keyrings/touchegg-archive-keyring.gpg /tmp/touchegg-archive-key.asc
+  args:
+    creates: /usr/share/keyrings/touchegg-archive-keyring.gpg
+  become: true
+  tags: touchegg
+
+- name: Touchegg | Add stable repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/touchegg-archive-keyring.gpg] https://ppa.launchpadcontent.net/touchegg/stable/ubuntu {{ ansible_distribution_release }} main"
+    state: present
+    update_cache: true
+    filename: touchegg
+  become: true
+  tags: touchegg
+
+- name: Touchegg | Install touchegg
+  ansible.builtin.apt:
+    name: touchegg
+    state: present
+  become: true
+  tags: touchegg
+
+- name: Touchegg | Enable and start system service
+  ansible.builtin.systemd:
+    name: touchegg
+    enabled: true
+    state: started
+  become: true
+  tags: touchegg
+
+- name: Touchegg | Add user to input group (required to read touch events)
+  ansible.builtin.user:
+    name: "{{ devops_user_name }}"
+    groups: input
+    append: yes
+  become: true
+  tags: touchegg
+
+- name: Touchegg | Create user config directory
+  ansible.builtin.file:
+    path: "/home/{{ devops_user_name }}/.config/touchegg"
+    state: directory
+    owner: "{{ devops_user_name }}"
+    mode: '0755'
+  become: true
+  tags: touchegg
+
+- name: Touchegg | Deploy macOS-like gesture configuration
+  ansible.builtin.template:
+    src: touchegg.conf.j2
+    dest: "/home/{{ devops_user_name }}/.config/touchegg/touchegg.conf"
+    owner: "{{ devops_user_name }}"
+    mode: '0644'
+  become: true
+  tags: touchegg
+
+# --- Touché: GUI configurator (Flathub) ---
+
+- name: Touche | Install Touché GUI configurator via flatpak
+  community.general.flatpak:
+    name: com.github.joseexposito.touche
+    state: present
+  become: true
+  tags: touchegg

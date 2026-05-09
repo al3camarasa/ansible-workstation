@@ -85,3 +85,16 @@
   when: ansible_distribution_version >= "22.04"
   become: true
   become_user: "{{devops_user_name}}"
+
+- name: "Gnome | Move window buttons to the left (macOS style: close, minimize, maximize)"
+  command: gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize,maximize:'
+  become: true
+  become_user: "{{devops_user_name}}"
+
+- name: Gnome | Enable Super+D shortcut to show desktop (used by 4-finger swipe down in Touchegg)
+  command: gsettings set org.gnome.desktop.wm.keybindings show-desktop "['<Super>d']"
+  become: true
+  become_user: "{{devops_user_name}}"
+
+- include_tasks: tasks/instala_touchegg.yml
+  tags: touchegg

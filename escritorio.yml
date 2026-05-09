@@ -22,3 +22,10 @@
     tags:
       - escritorio
       - protonvpn
+ 
+  - name: Include task list to install LogiTune
+    ansible.builtin.import_tasks: tasks/instala_logitune.yml
+    when: logitech_mx_master_4 is defined
+    tags:
+      - escritorio
+      - logitune

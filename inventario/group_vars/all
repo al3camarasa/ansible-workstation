@@ -9,7 +9,6 @@ rclone_arch: amd64
 
 list_of_remove_apt:
 - flameshot
-- keepassxc
 - indicator-cpufreq
 
 # Flatpak
@@ -20,7 +19,6 @@ list_of_flatpak:
 list_of_snap_escritorio:
 - audacity
 - dbeaver-ce
-- keepassxc
 - pinta
 - spotify
 # - telegram-desktop
@@ -36,11 +34,11 @@ list_of_snap_devops:
 # - code
 - postman
 
-list_of_snap_access_media:
-- keepassxc
+# list_of_snap_access_media:
+# - keepassxc
 
-list_of_snap_access_usb:
-- keepassxc
+# list_of_snap_access_usb:
+# - keepassxc
 
 # Gnome
 path_wallpapers: "/home/{{devops_user_name}}/Imágenes/wallpapers"

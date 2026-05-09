@@ -1,0 +1,34 @@
+---
+# Installs LogiTune from the OpenSUSE Build Service repository.
+# Source: https://software.opensuse.org/download.html?project=home%3Ammaher88%3Alogitune&package=logitune
+
+- name: LogiTune | Download and dearmor the GPG release key
+  ansible.builtin.shell: |
+    wget -qO- https://download.opensuse.org/repositories/home:mmaher88:logitune/xUbuntu_24.04/Release.key | \
+      gpg --dearmor | tee /etc/apt/trusted.gpg.d/logitune.gpg > /dev/null
+  args:
+    creates: /etc/apt/trusted.gpg.d/logitune.gpg
+  become: true
+  tags: logitune
+
+- name: LogiTune | Add APT repository
+  ansible.builtin.apt_repository:
+    repo: "deb https://download.opensuse.org/repositories/home:/mmaher88:/logitune/xUbuntu_24.04/ /"
+    state: present
+    update_cache: true
+    filename: logitune
+  become: true
+  tags: logitune
+
+- name: LogiTune | Install LogiTune
+  ansible.builtin.apt:
+    name: logitune
+    state: present
+  become: true
+  tags: logitune
+
+- name: LogiTune |  Create desktop shortcut for LogiTune
+  include_tasks: "{{ lookup('env','PWD') }}/tasks/crear_icono.yml"
+  vars:
+   app: "{{ logitech_mx_master_4 }}"
+  tags: logitune

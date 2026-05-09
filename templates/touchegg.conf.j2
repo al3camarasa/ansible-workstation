@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Touchégg configuration - macOS-like gestures for GNOME
+  Managed by Ansible - do not edit manually
+
+  Gesture summary (macOS equivalent):
+    3-finger swipe left/right  → Switch workspaces  (macOS: switch spaces)
+    3-finger swipe up          → GNOME Activities   (macOS: Mission Control)
+    3-finger swipe down        → Minimize window    (macOS: App Exposé / hide)
+    4-finger swipe up          → GNOME Activities   (macOS: Mission Control)
+    4-finger swipe down        → Show desktop       (macOS: spread 5 fingers)
+    4-finger swipe left/right  → Switch workspaces
+    Pinch in/out (2 fingers)   → Zoom in/out        (macOS: pinch to zoom)
+-->
+<touchégg>
+  <settings>
+    <!-- Delay in ms before the animation starts -->
+    <property name="animation_delay">150</property>
+    <!-- Percentage of the gesture that must be completed to trigger the action -->
+    <property name="action_execute_threshold">20</property>
+    <!-- Animation color: auto uses the system accent color -->
+    <property name="color">auto</property>
+    <property name="opacity">0.5</property>
+  </settings>
+
+  <application name="All">
+
+    <!-- 3-finger swipe left: next workspace (macOS: swipe left to go right) -->
+    <gesture type="SWIPE" fingers="3" direction="LEFT">
+      <action type="CHANGE_DESKTOP">
+        <direction>next</direction>
+        <animate>true</animate>
+        <animationPosition>right</animationPosition>
+      </action>
+    </gesture>
+
+    <!-- 3-finger swipe right: previous workspace -->
+    <gesture type="SWIPE" fingers="3" direction="RIGHT">
+      <action type="CHANGE_DESKTOP">
+        <direction>previous</direction>
+        <animate>true</animate>
+        <animationPosition>left</animationPosition>
+      </action>
+    </gesture>
+
+    <!-- 3-finger swipe up: Mission Control (GNOME Activities overview) via Super key -->
+    <gesture type="SWIPE" fingers="3" direction="UP">
+      <action type="KEYBOARD_SHORTCUT">
+        <shortcut>super</shortcut>
+        <animate>true</animate>
+        <animationPosition>down</animationPosition>
+      </action>
+    </gesture>
+
+    <!-- 3-finger swipe down: minimize current window (macOS: hide window) -->
+    <gesture type="SWIPE" fingers="3" direction="DOWN">
+      <action type="MINIMIZE_WINDOW">
+        <animate>true</animate>
+        <animationPosition>down</animationPosition>
+      </action>
+    </gesture>
+
+    <!-- 4-finger swipe left: next workspace -->
+    <gesture type="SWIPE" fingers="4" direction="LEFT">
+      <action type="CHANGE_DESKTOP">
+        <direction>next</direction>
+        <animate>true</animate>
+        <animationPosition>right</animationPosition>
+      </action>
+    </gesture>
+
+    <!-- 4-finger swipe right: previous workspace -->
+    <gesture type="SWIPE" fingers="4" direction="RIGHT">
+      <action type="CHANGE_DESKTOP">
+        <direction>previous</direction>
+        <animate>true</animate>
+        <animationPosition>left</animationPosition>
+      </action>
+    </gesture>
+
+    <!-- 4-finger swipe up: Mission Control (GNOME Activities) via Super key -->
+    <gesture type="SWIPE" fingers="4" direction="UP">
+      <action type="KEYBOARD_SHORTCUT">
+        <shortcut>super</shortcut>
+        <animate>true</animate>
+        <animationPosition>down</animationPosition>
+      </action>
+    </gesture>
+
+    <!-- 4-finger swipe down: show desktop via Super+D (macOS: spread 5 fingers) -->
+    <gesture type="SWIPE" fingers="4" direction="DOWN">
+      <action type="KEYBOARD_SHORTCUT">
+        <shortcut>super+d</shortcut>
+        <animate>true</animate>
+        <animationPosition>down</animationPosition>
+      </action>
+    </gesture>
+
+    <!-- Pinch out with 2 fingers: zoom in (macOS: pinch to zoom) -->
+    <gesture type="PINCH" fingers="2" direction="OUT">
+      <action type="PINCH_TO_ZOOM">
+        <animate>false</animate>
+        <drag>false</drag>
+      </action>
+    </gesture>
+
+    <!-- Pinch in with 2 fingers: zoom out (macOS: pinch to zoom) -->
+    <gesture type="PINCH" fingers="2" direction="IN">
+      <action type="PINCH_TO_ZOOM">
+        <animate>false</animate>
+        <drag>false</drag>
+      </action>
+    </gesture>
+
+  </application>
+</touchégg>
