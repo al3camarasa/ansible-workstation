@@ -1,0 +1,16 @@
+---
+- name: "{{ autostart_app }} | Create autostart directory"
+  ansible.builtin.file:
+    path: "/home/{{ devops_user_name }}/.config/autostart"
+    state: directory
+    owner: "{{ devops_user_name }}"
+    mode: "0755"
+  become: true
+
+- name: "{{ autostart_app }} | Create autostart desktop entry"
+  ansible.builtin.template:
+    src: "{{ autostart_template }}"
+    dest: "/home/{{ devops_user_name }}/.config/autostart/{{ autostart_filename }}"
+    owner: "{{ devops_user_name }}"
+    mode: "0644"
+  become: true

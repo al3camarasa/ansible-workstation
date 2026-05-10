@@ -27,8 +27,10 @@
   become: true
   tags: logitune
 
-- name: LogiTune |  Create desktop shortcut for LogiTune
-  include_tasks: "{{ lookup('env','PWD') }}/tasks/crear_icono.yml"
-  vars:
-   app: "{{ logitech_mx_master_4 }}"
-  tags: logitune
+# - name: LogiTune | Create autostart entry
+#   import_tasks: crear_autostart.yml
+#   vars:
+#     autostart_app: LogiTune
+#     autostart_template: logitune-autostart.desktop.j2
+#     autostart_filename: logitune.desktop
+#   tags: logitune
