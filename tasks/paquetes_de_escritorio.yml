@@ -197,10 +197,11 @@
   - escritorio
   - snap
 
-- name: escritorio | install speedtest
+- name: escritorio | install speedtest and yt-dlp
   ansible.builtin.pip:
     name:
       - speedtest-cli
+      - yt-dlp
     virtualenv: "{{ python_venv }}"
     virtualenv_command: python3 -m venv
   environment:
