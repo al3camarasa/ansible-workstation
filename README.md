@@ -206,9 +206,12 @@ mkdir -p inventario/{group_vars,host_vars}
 - ```### Python virtualenv name ANSIBLE_2_15
      #python_venv: "/usr/local/venv-ansible-2.15"
      #python_path: "/usr/local/venv-ansible-2.15/lib/python3.11/site-packages"
+     ## Ansible version
+     ##ansible_version_target: 2.15.12
 - ```### Python virtualenv name ANSIBLE_2_18
      python_venv: "/usr/local/venv-ansible-2.18"
      python_path: "/usr/local/venv-ansible-2.18/lib/python3.12/site-packages"
+     ##ansible_version_target: 2.18.17
      ```
 
 Luego ejecutamos Ansible:
