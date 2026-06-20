@@ -208,23 +208,21 @@
     PIP_BREAK_SYSTEM_PACKAGES: '1'
   become: true
 
-- name: escritorio | Flameshot | Get latest release
-  community.general.github_release:
-    user: flameshot-org
-    repo: flameshot
-    action: latest_release
-  register: flameshot_github_release
-  environment:
-    PYTHONPATH: "{{ python_path | default('/usr/local/venv-ansible-{{ ansible_version.major }}.{{ ansible_version.minor }}/lib/python{{ ansible_python.version.major }}.{{ ansible_python.version.minor }}/site-packages') }}"
-    
+- name: escritorio | Flameshot | Add PPA repository
+  ansible.builtin.apt_repository:
+    repo: 'ppa:quentiumyt/flameshot'
+    state: present
+    update_cache: yes
+  when: ansible_distribution == "Ubuntu"
+  become: true
   tags:
   - escritorio
 
 - name: escritorio | Flameshot | Install
   ansible.builtin.apt:
-    #deb: "https://github.com/flameshot-org/flameshot/releases/download/{{ flameshot_github_release.tag }}/flameshot-{{ flameshot_github_release.tag | regex_search('[0-9.]+') }}-1.ubuntu-{{ ansible_distribution_version }}.amd64.deb"
-    deb: "https://github.com/flameshot-org/flameshot/releases/download/{{ flameshot_github_release.tag }}/flameshot-{{ flameshot_github_release.tag | regex_search('[0-9.]+') }}-1.ubuntu-22.04.amd64.deb"
-  when: ansible_distribution == "Ubuntu" and ansible_distribution_version >= "22.04"
+    name: flameshot
+    state: present
+  when: ansible_distribution == "Ubuntu"
   become: true
   tags:
   - escritorio
