@@ -3,6 +3,7 @@
   apt:
     name:
     - aptitude
+    - bubblewrap
     - arp-scan
     - curl
     - htop
@@ -40,6 +41,7 @@
     - w3m
     - wget
     - whois
+    - socat
     - sshpass
     state: present
   become: true
