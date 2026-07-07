@@ -1,9 +1,14 @@
 
 - name: Veracrypt | Download VeraCrypt
-  get_url:
+  ansible.builtin.get_url:
     url: "https://launchpad.net/veracrypt/trunk/{{ veracrypt_version }}/+download/veracrypt-{{ veracrypt_version }}-Ubuntu-{{ ansible_distribution_version }}-amd64.deb"
     dest: /tmp/veracrypt.deb
     checksum: "sha256:{{ veracryp_sha256_expected[ansible_distribution_version] }}"
+    timeout: 60
+  retries: 3
+  delay: 10
+  register: veracrypt_download
+  until: veracrypt_download is succeeded
 
 - name: Veracrypt | Install a .deb package
   ansible.builtin.apt:
