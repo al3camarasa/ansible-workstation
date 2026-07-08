@@ -2,5 +2,6 @@ custom/*
 inventario/hosts
 inventario/host_vars/
 .vagrant/
+.ansible/
 provision/ansible/*.retry
 roles/
