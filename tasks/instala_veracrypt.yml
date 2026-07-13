@@ -10,8 +10,24 @@
   register: veracrypt_download
   until: veracrypt_download is succeeded
 
+- name: Veracrypt | Check for mounted volumes
+  ansible.builtin.command: veracrypt --text --list
+  register: veracrypt_mounted
+  changed_when: false
+  failed_when: false
+  become: true
+
 - name: Veracrypt | Install a .deb package
   ansible.builtin.apt:
     deb: /tmp/veracrypt.deb
-  when: ansible_distribution == "Ubuntu"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - veracrypt_mounted.stdout | trim == ""
   become: true
+
+- name: Veracrypt | Skip install/upgrade because a volume is mounted
+  ansible.builtin.debug:
+    msg: "VeraCrypt volume(s) currently mounted, skipping install/upgrade."
+  when:
+    - ansible_distribution == "Ubuntu"
+    - veracrypt_mounted.stdout | trim != ""

@@ -210,6 +210,35 @@
     PIP_BREAK_SYSTEM_PACKAGES: '1'
   become: true
 
+- name: escritorio | Flameshot | Get PPA signing key fingerprint
+  ansible.builtin.uri:
+    url: "https://launchpad.net/api/1.0/~quentiumyt/+archive/ubuntu/flameshot"
+    return_content: yes
+  register: flameshot_ppa_info
+  when: ansible_distribution == "Ubuntu"
+  tags:
+  - escritorio
+
+- name: escritorio | Flameshot | Fetch PPA GPG key over HTTPS
+  ansible.builtin.uri:
+    url: "https://keyserver.ubuntu.com/pks/lookup?op=get&options=mr&exact=on&search=0x{{ flameshot_ppa_info.json.signing_key_fingerprint }}"
+    return_content: yes
+  register: flameshot_key_data
+  when: ansible_distribution == "Ubuntu"
+  until: flameshot_key_data is succeeded
+  retries: 5
+  delay: 10
+  tags:
+  - escritorio
+
+- name: escritorio | Flameshot | Import PPA GPG key
+  ansible.builtin.apt_key:
+    data: "{{ flameshot_key_data.content }}"
+  when: ansible_distribution == "Ubuntu"
+  become: true
+  tags:
+  - escritorio
+
 - name: escritorio | Flameshot | Add PPA repository
   ansible.builtin.apt_repository:
     repo: 'ppa:quentiumyt/flameshot'
@@ -217,6 +246,10 @@
     update_cache: yes
   when: ansible_distribution == "Ubuntu"
   become: true
+  register: flameshot_ppa
+  until: flameshot_ppa is succeeded
+  retries: 5
+  delay: 10
   tags:
   - escritorio
 
