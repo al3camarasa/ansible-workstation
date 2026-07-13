@@ -173,19 +173,51 @@
         - kubernetes
         - kubens
 
-    - name: "devops | K9S | Install"
-      ansible.legacy.shell: curl -sS https://webinstall.dev/k9s | bash
-      become_user: "{{ devops_user_name }}"
+    - name: "devops | K9S | Get latest release"
+      community.general.github_release:
+        user: derailed
+        repo: k9s
+        action: latest_release
+      register: k9s_github_release
+      environment:
+        PYTHONPATH: "{{ python_path | default('/usr/local/venv-ansible-{{ ansible_version.major }}.{{ ansible_version.minor }}/lib/python{{ ansible_python.version.major }}.{{ ansible_python.version.minor }}/site-packages') }}"
       tags:
         - devops
         - kubernetes
         - k9s
 
-    - name: "devops | K9S | Create a symlink to k9s"
+    - name: "devops | K9S | Ensure directory exists"
       ansible.builtin.file:
-        src: "/home/{{ devops_user_name }}/.local/bin/k9s"
-        dest: "/usr/bin/k9s"
-        state: link
+        path: /tmp/k9s
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+      when: k9s_github_release is defined
+      tags:
+        - devops
+        - kubernetes
+        - k9s
+
+    - name: "devops | K9S | Extract some files"
+      ansible.builtin.unarchive:
+        src: "https://github.com/derailed/k9s/releases/download/{{ k9s_github_release.tag }}/k9s_Linux_amd64.tar.gz"
+        dest: /tmp/k9s
+        remote_src: true
+      when: k9s_github_release is defined
+      tags:
+        - devops
+        - kubernetes
+        - k9s
+
+    - name: "devops | K9S | Install"
+      ansible.builtin.copy:
+        src: /tmp/k9s/k9s
+        dest: /usr/bin/k9s
+        owner: root
+        group: root
+        mode: "0755"
+      when: k9s_github_release is defined
       tags:
         - devops
         - kubernetes
