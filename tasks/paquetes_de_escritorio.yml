@@ -43,6 +43,7 @@
     - whois
     - socat
     - sshpass
+    - tree
     state: present
   become: true
 
