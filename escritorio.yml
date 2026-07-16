@@ -29,3 +29,8 @@
     tags:
       - escritorio
       - logitune
+
+  - name: Include task list to personalization gnome
+    ansible.builtin.include_tasks: tasks/personalizacion_gnome.yml
+    when: ansible_distribution == "Ubuntu"
+    

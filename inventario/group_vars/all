@@ -9,7 +9,7 @@ rclone_arch: amd64
 
 list_of_remove_apt:
 - flameshot
-- indicator-cpufreq
+# - indicator-cpufreq
 
 # Flatpak
 list_of_flatpak:

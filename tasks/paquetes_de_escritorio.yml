@@ -67,6 +67,7 @@
     - dconf-editor
     - filezilla
     - gufw
+    - indicator-cpufreq
     - fontforge
     - woff2
     - font-manager
@@ -96,15 +97,6 @@
   tags:
   - escritorio
   - snap
-
-- name: Apt | Install a .deb indicator_cpufreq from mantic repository
-  ansible.builtin.apt:
-    deb: http://mirrors.kernel.org/ubuntu/pool/universe/i/indicator-cpufreq/indicator-cpufreq_0.2.2-0ubuntu4_all.deb
-  when: ansible_distribution_version == "22.04"
-  become: true
-
-- include_tasks: tasks/personalizacion_gnome.yml
-  when: ansible_distribution == "Ubuntu"
 
 - name: Apt | utilidades de compresión
   apt:
