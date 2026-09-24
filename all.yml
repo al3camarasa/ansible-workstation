@@ -29,6 +29,11 @@
     when: tlp_batteries is defined
     tags: [battery]
 
+  - name: "Battery | config WiFi powersave off"
+    ansible.builtin.include_tasks: "tasks/config_wifi-powersave.yml"
+    when: tlp_batteries is defined
+    tags: [battery]
+
   - name: "Definir la variable python_venv_path"
     ansible.builtin.set_fact:
       python_venv: "{{ python_venv if python_venv is defined else '/usr/local/venv-ansible-{{ ansible_version.major }}.{{ ansible_version.minor }}' }}"

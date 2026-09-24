@@ -1,0 +1,20 @@
+  - name: "Battery | Disable WiFi powersave in NetworkManager"
+    ansible.builtin.copy:
+      dest: /etc/NetworkManager/conf.d/wifi-powersave.conf
+      content: |
+        [connection]
+        wifi.powersave = 2
+      owner: root
+      group: root
+      mode: "0644"
+    register: wifi_powersave_conf
+    become: true
+    tags: [ battery ]
+
+  - name: "Battery | Restart NetworkManager"
+    ansible.builtin.systemd:
+      name: NetworkManager
+      state: restarted
+    when: wifi_powersave_conf.changed
+    become: true
+    tags: [ battery ]
