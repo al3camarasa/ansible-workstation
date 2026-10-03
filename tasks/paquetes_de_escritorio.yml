@@ -79,7 +79,6 @@
     - jmeter
     - ttf-mscorefonts-installer
     - typecatcher
-    - visualvm
     - vokoscreen
     - obs-studio
     - shotcut
@@ -112,17 +111,6 @@
     - cabextract
     state: present
   become: true
-
-- name: Apt | instala Open JDK 11
-  apt:
-    name:
-    - openjdk-11-jdk
-    - openjdk-21-jdk
-    state: present
-  ignore_errors: true
-  become: true
-  tags:
-  - java
 
 - name: Apt | Lector de epub, mobi
   apt:

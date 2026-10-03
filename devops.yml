@@ -58,15 +58,6 @@
         - vmware-workstation
         - virtualbox
 
-    # - name: devops | install vmware-workstation
-    #   include_tasks: tasks/instala_vmware-workstation.yml
-    #   vars:
-    #     workstation_tempdir: /var/cache/workstation-downloads
-    #   when: hay_virtualizacion_register.rc == 0
-    #   tags: 
-    #     - devops
-    #     - vmware-workstation
-
     ##FIXME: use https://github.com/sbreitf1/kubeselect
     - name: "devops | Kubeselect | Clone repo"
       ansible.builtin.git:
@@ -230,10 +221,4 @@
         - devops
         - vscode-insiders
 
-    # - name: "devops | Install Lens"
-    #   ansible.builtin.include_tasks:
-    #     file: tasks/install_lens.yml
-    #   tags:
-    #     - devops
-    #     - kubernetes
 
