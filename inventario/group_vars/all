@@ -43,7 +43,7 @@ list_of_snap_devops:
 # Gnome
 path_wallpapers: "/home/{{devops_user_name}}/Imágenes/wallpapers"
 file_ext: "jpg"
-wallpapers_url: "https://unsplash.com/photos/n--CMLApjfI/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzI2MjQzMjAxfA&force=true"
+wallpapers_url: "https://images.unsplash.com/photo-1528164344705-47542687000d?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb"
 
 # ansible-role-protonvpn
 # protonvpn_user: "{{ ansible_user_id }}"
