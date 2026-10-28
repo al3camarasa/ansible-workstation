@@ -214,11 +214,17 @@
         - kubernetes
         - k9s
 
-    - name: "devops | Install Visual Studio Code Insiders"
+    # - name: "devops | Install Visual Studio Code Insiders"
+    #   ansible.builtin.import_tasks:
+    #     file: tasks/install_vscode_insiders.yml
+    #   tags:
+    #     - devops
+    #     - vscode-insiders
+
+    - name: "devops | Install Claude Code"
       ansible.builtin.import_tasks:
-        file: tasks/install_vscode_insiders.yml
+        file: tasks/install_claude_code.yml
       tags:
         - devops
-        - vscode-insiders
-
+        - claude-code
 

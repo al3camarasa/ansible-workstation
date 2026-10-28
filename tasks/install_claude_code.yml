@@ -1,0 +1,33 @@
+---
+# Instalador nativo: deja el binario en ~/.local/bin/claude y se autoactualiza
+- name: "devops | Claude Code | Download native installer"
+  ansible.builtin.get_url:
+    url: "https://claude.ai/install.sh"
+    dest: "/tmp/claude-code-install.sh"
+    mode: "0755"
+    timeout: 60
+  register: download_result
+  until: download_result is succeeded
+  retries: 3
+  delay: 5
+  tags:
+    - devops
+    - claude-code
+
+- name: "devops | Claude Code | Install"
+  ansible.builtin.command: bash /tmp/claude-code-install.sh
+  args:
+    creates: "/home/{{ devops_user_name }}/.local/bin/claude"
+  become: true
+  become_user: "{{ devops_user_name }}"
+  tags:
+    - devops
+    - claude-code
+
+- name: "devops | Claude Code | Remove installer"
+  ansible.builtin.file:
+    path: "/tmp/claude-code-install.sh"
+    state: absent
+  tags:
+    - devops
+    - claude-code
